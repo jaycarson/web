@@ -37,15 +37,15 @@ def index():
         print(form.sex.data)
     else:
         print(form.errors)
-    return render_template('smv.html',form=form)
+    return render_template('base.html')
 
 
 @app.route('/smv',methods=['post','get'])
 def smv():
-    height = request.form.get('height')
-    weight = request.form.get('weight')
-    sex = request.form.get('sex')
-    age = request.form.get('age')
+    height = request.form.get('height') or 60
+    weight = request.form.get('weight') or 2000
+    sex = request.form.get('sex') or '1'
+    age = request.form.get('age') or 30
 
     app = SMV(debug=True)
 
@@ -77,8 +77,10 @@ def smv():
             'state': 'Minnesota',
         }
         calc_smv = app(attrs_f)
+    
+    form = SimpleForm()
 
-    return calc_smv
+    return render_template('smv.html', form=form, content=str(calc_smv))
 
 
 if __name__ == '__main__':
