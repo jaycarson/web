@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
 from wtforms import RadioField, SelectField
 from SMV import SMV
+from Simulation import Simulation
 
 
 SECRET_KEY = 'development'
@@ -43,7 +44,22 @@ def index():
 @app.route('/fertility',methods=['post','get'])
 def fertility():
     form = SimpleForm()
-    return render_template('fertility.html', form=form)
+    sim = Simulation(
+        years = int(31),
+        months = int(1),
+        weight = int(168),
+        height = int(63),
+        carnivore = True,
+        twins = True,
+        casual_smoker = False,
+        regular_smoker = False,
+        end_year = int(40),
+        ivf_allowed = True,
+        size = int(1000),
+    )
+    sim()
+
+    return render_template('fertility.html', form=form, content=sim.total_children_percent)
 
 
 @app.route('/smv',methods=['post','get'])
