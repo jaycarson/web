@@ -14,7 +14,7 @@ class SMV(object):
         self.bf_f_c = yaml.load(open('./data/bodyfat_f_caliper.yml', 'r'), Loader=yaml.FullLoader)
         self.height_f = yaml.load(open('./data/height_f.yml', 'r'), Loader=yaml.FullLoader)
         self.height_m = yaml.load(open('./data/height_m.yml', 'r'), Loader=yaml.FullLoader)
-        self.income = yaml.load(open('./data/income.yml', 'r'), Loader=yaml.FullLoader)
+        self.incomes = yaml.load(open('./data/income.yml', 'r'), Loader=yaml.FullLoader)
         self.pop_by_age = yaml.load(open('./data/population_by_age.yml', 'r'), Loader=yaml.FullLoader)
         self.pop_by_state = yaml.load(open('./data/population_by_state_2013.yml', 'r'), Loader=yaml.FullLoader)
         self.smv_m = yaml.load(open('./data/smv_m.yml', 'r'), Loader=yaml.FullLoader)
@@ -313,7 +313,7 @@ class SMV(object):
         if income is None:
             income = self.income
         for x in range(0, 100):
-            income_target = self.income[x]
+            income_target = self.incomes[x]
             if income_target > income:
                 return (100 - x) / 100
 
@@ -549,5 +549,5 @@ if __name__ == '__main__':
         'max_a': 45,
         'state': 'Minnesota',
     }
-    app = SMV(debug=args.debug, attrs=attrs_f)
+    app = SMV(debug=args.debug, attrs=attrs_m)
     app()

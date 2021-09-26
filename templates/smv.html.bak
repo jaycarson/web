@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %} Home Page {% endblock %}
+
+<form method="post",  action="/smv">
+  <h4>Sex:</h4>
+  {{ form.sex }}
+  <h4>Age:</h4>
+  {{ form.age }}
+  <h4>Height:</h4>
+  {{ form.height }}
+  <h4>Weight:</h4>
+  {{ form.weight }}
+  <br>
+  <br>
+  <br>
+  <input type="submit">
+</form>
+
+{% block content %} {{ content }}
+{% endblock %}
