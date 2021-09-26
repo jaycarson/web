@@ -3,7 +3,7 @@ import argparse
 
 
 class SMV(object):
-    def __init__(self, debug):
+    def __init__(self, debug, attrs):
         self.debug = debug
         self.data = {}
         self.bmi_m = yaml.load(open('./data/bmi_m.yml', 'r'), Loader=yaml.FullLoader)
@@ -27,37 +27,49 @@ class SMV(object):
             
         self.fitter_taller_richer_printed = False
 
-    def __call__(self, attrs):
-        if attrs['bodyfat'] > 0:
+        self.attrs = attrs
+        self.sex = attrs['sex']
+        self.height = int(attrs['height'])
+        self.weight = int(attrs['weight'])
+        self.bodyfat = attrs['bodyfat']
+        self.bodyfat_c = attrs['bodyfat_c']
+        self.income = int(attrs['income'])
+        self.age = int(attrs['age'])
+        self.min_a = int(attrs['min_a'])
+        self.max_a = int(attrs['max_a'])
+        self.state = attrs['state']
+
+    def __call__(self):
+        if self.bodyfat > 0:
             self.fitness = 'bodyfat'
-        elif attrs['bodyfat_c'] > 0:
+        elif self.bodyfat_c > 0:
             self.fitness = 'bodyfat_c'
         else:
             self.fitness = 'bmi'
-            attrs['bmi'] = self.bmi(attrs)
+            self.bmi = self.bmi()
 
         if self.debug:
-            print(self.fitness +': ' + str(attrs[self.fitness]))
-        if attrs['sex'] == 'male':
+            print(self.fitness +': ' + str(self.fitness))
+        if self.sex == 'male':
             print('Calling Male')
             total = 0
-            total += self.total_better(attrs)
-            self.percent_male(attrs)
-            return 'SMV: ' + str(self.get_smv(total / self.total_pop(attrs), attrs['sex']))
+            total += self.total_better()
+            self.percent_male()
+            return 'SMV: ' + str(self.get_smv(total / self.total_pop(), self.sex))
         else:
             print('Calling Female')
             total = 0
-            total += self.total_better(attrs)
-            self.percent_female(attrs)
-            return 'SMV: ' + str(self.get_smv(total / self.total_pop(attrs), attrs['sex']))
+            total += self.total_better()
+            self.percent_female()
+            return 'SMV: ' + str(self.get_smv(total / self.total_pop(), self.sex))
 
-    def bmi(self, attrs):
-        return round(attrs['weight'] / (attrs['height'] * attrs['height']) * 703)
+    def bmi(self):
+        return round(self.weight / (self.height * self.height) * 703)
 
-    def adjust_fit(self, attrs, direction):
+    def adjust_fit(self, direction):
         value = 0
         if self.fitness == 'bmi':
-            bmi = attrs['bmi']
+            bmi = self.bmi
 
             if direction == 'up':
                 if bmi >= 37:
@@ -97,11 +109,11 @@ class SMV(object):
                     value = 54
         else:
             if self.fitness == 'bodyfat':
-                bf = attrs['bodyfat']
+                bf = self.bodyfat
             else:
-                bf = attrs['bodyfat_c']
+                bf = self.bodyfat_c
             if direction == 'up':
-                if attrs['sex'] == 'male':
+                if self.sex == 'male':
                     if bf >= 40:
                         value = 35
                     elif bf >= 35:
@@ -136,7 +148,7 @@ class SMV(object):
                     else:
                         value = 10
             else:
-                if attrs['sex'] == 'male':
+                if self.sex == 'male':
                     if bf <= 3:
                         value = 7
                     elif bf <= 7:
@@ -172,8 +184,8 @@ class SMV(object):
                         value = 50
         return value
 
-    def adjust_height(self, attrs, direction):
-        height = attrs['height']
+    def adjust_height(self, direction):
+        height = self.height
         if direction == 'up':
             if height <= 63:
                 return 65
@@ -201,8 +213,8 @@ class SMV(object):
             else:
                 return 60
 
-    def adjust_income(self, attrs, direction):
-        income = attrs['income']
+    def adjust_income(self, direction):
+        income = self.income
         if direction == 'up':
             if income < 50000:
                 return 50000
@@ -222,8 +234,8 @@ class SMV(object):
             else:
                 return
 
-    def adjust_young(self, attrs, direction):
-        age = attrs['age']
+    def adjust_young(self, direction):
+        age = self.age
         if direction == 'up':
             if age > 50:
                 return 40
@@ -262,8 +274,8 @@ class SMV(object):
                 if percent < self.smv_f[x]:
                     return x
 
-    def percent_fit(self, attrs, fit=None):
-        if attrs['sex'] == 'male':
+    def percent_fit(self, fit=None):
+        if self.sex == 'male':
             if self.fitness == 'bmi':
                 table = self.bmi_m
             elif self.fitness == 'bodyfat':
@@ -278,36 +290,36 @@ class SMV(object):
             else:
                 table = self.bf_f_c
         if fit is None:
-             fit = attrs[self.fitness]
+             fit = self.fitness
         if fit not in table:
             return 1
         return table[fit] / 100
 
-    def percent_height(self, attrs, height=None):
+    def percent_height(self, height=None):
         height_percent = 0
-        if attrs['sex'] == 'male':
+        if self.sex == 'male':
             if height is None:
-                height_percent = self.height_m[attrs['height']]
+                height_percent = self.height_m[self.height]
             else:
                 height_percent = self.height_m[height]
         else:
             if height is None:
-                height_percent = self.height_f[attrs['height']]
+                height_percent = self.height_f[self.height]
             else:
                 height_percent = self.height_f[height]
         return (100 - height_percent) / 100
 
-    def percent_income(self, attrs, income=None):
+    def percent_income(self, income=None):
         if income is None:
-            income = attrs['income']
+            income = self.income
         for x in range(0, 100):
             income_target = self.income[x]
             if income_target > income:
                 return (100 - x) / 100
 
-    def percent_young(self, attrs, youth=None):
+    def percent_young(self, youth=None):
         if youth is None:
-            youth = attrs['age']
+            youth = self.age
         younger = 0.0
         total_younger = 0.0
         for x in range(18, 40):
@@ -317,106 +329,106 @@ class SMV(object):
             total_younger += percent
         return younger / total_younger
 
-    def percent_female(self, attrs):
-        pop = self.total_pop(attrs)
-        #base = pop * self.percent_fit(attrs) * self.percent_height(attrs) * self.percent_income(attrs)
-        attrs['mod'] = False
+    def percent_female(self):
+        pop = self.total_pop()
+        #base = pop * self.percent_fit() * self.percent_height() * self.percent_income()
+        self.mod = False
 
         total = 0
-        total += self.total_better(attrs)
+        total += self.total_better()
 
         print('total: ' + str(total))
-        print('SMV: ' + str(self.get_smv(total / self.total_pop(attrs), attrs['sex'])))
+        print('SMV: ' + str(self.get_smv(total / self.total_pop(), self.sex)))
     
-    def percent_male(self, attrs):
-        pop = self.total_pop(attrs)
-        #base = pop * self.percent_fit(attrs) * self.percent_youth(attrs)
-        attrs['mod'] = False
+    def percent_male(self):
+        pop = self.total_pop()
+        #base = pop * self.percent_fit() * self.percent_youth()
+        self.mod = False
 
         total = 0
-        total += self.total_better(attrs)
+        total += self.total_better()
 
         print('total: ' + str(total))
-        print('SMV: ' + str(self.get_smv(total / self.total_pop(attrs), attrs['sex'])))
+        print('SMV: ' + str(self.get_smv(total / self.total_pop(), self.sex)))
 
-    def total_pop(self, attrs):
+    def total_pop(self):
         total_population = 0
         for x in range(1, 85+1):
-            if x > attrs['min_a'] and x < attrs['max_a']:
+            if x > self.min_a and x < self.max_a:
                 total_population += self.pop_by_age[x]
-        value = round(total_population / 100 * self.pop_by_state[attrs['state']][attrs['sex']])
+        value = round(total_population / 100 * self.pop_by_state[self.state][self.sex])
         if self.debug and False:
             print("Total Pop: " + str(value))
         return value
 
-    def total_base(self, attrs):
-        pop = self.total_pop(attrs)
+    def total_base(self):
+        pop = self.total_pop()
         value = round(
             pop 
-            * self.percent_fit(attrs)
-            * self.percent_height(attrs)
-            * self.percent_income(attrs)
+            * self.percent_fit()
+            * self.percent_height()
+            * self.percent_income()
         )
         if self.debug:
             print("Base: " + str(value))
         return value
 
-    def total_better(self, attrs):
-        attrs['mod'] = False
+    def total_better(self):
+        self.mod = False
         total = 0
 
-        if attrs['sex'] == 'male':
-            total += self.total_fitter(attrs)
-            total += self.total_taller(attrs)
-            total += self.total_richer(attrs)
-            total += self.total_fitter_taller(attrs)
-            total += self.total_fitter_richer(attrs)
-            total += self.total_taller_richer(attrs)
-            total += self.total_fitter_taller_richer(attrs)
+        if self.sex == 'male':
+            total += self.total_fitter()
+            total += self.total_taller()
+            total += self.total_richer()
+            total += self.total_fitter_taller()
+            total += self.total_fitter_richer()
+            total += self.total_taller_richer()
+            total += self.total_fitter_taller_richer()
         else:
-            total += self.total_slimmer(attrs)
-            total += self.total_younger(attrs)
-            total += self.total_younger_fitter(attrs)
-        attrs['mod'] = False
+            total += self.total_slimmer()
+            total += self.total_younger()
+            total += self.total_younger_fitter()
+        self.mod = False
         if self.debug:
             print("Better: " + str(total))
         return total
 
-    def total_slimmer(self, attrs):
-        f = self.percent_fit(attrs, self.adjust_fit(attrs, 'up'))
-        y = self.percent_young(attrs, self.adjust_young(attrs, 'down')) - self.percent_young(attrs, self.adjust_young(attrs, 'up'))
-        value = round(self.total_pop(attrs) * f * y)
+    def total_slimmer(self):
+        f = self.percent_fit(self.adjust_fit('up'))
+        y = self.percent_young(self.adjust_young('down')) - self.percent_young(self.adjust_young('up'))
+        value = round(self.total_pop() * f * y)
         if self.debug:
             print("Fitter: " + str(value))
             print("    Younger: " + str(round(y, 2)))
             print("    Fitter:  " + str(round(f, 2)))
         return value
 
-    def total_younger(self, attrs):
-        f = self.percent_fit(attrs, self.adjust_fit(attrs, 'down')) - self.percent_fit(attrs, self.adjust_fit(attrs, 'up'))
-        y = self.percent_young(attrs, self.adjust_young(attrs, 'up'))
-        value = round(self.total_pop(attrs) * f * y)
+    def total_younger(self):
+        f = self.percent_fit(self.adjust_fit('down')) - self.percent_fit(self.adjust_fit('up'))
+        y = self.percent_young(self.adjust_young('up'))
+        value = round(self.total_pop() * f * y)
         if self.debug:
             print("Younger: " + str(value))
             print("    Younger: " + str(round(y, 2)))
             print("    Fitter:  " + str(round(f, 2)))
         return value
 
-    def total_younger_fitter(self, attrs):
-        f = self.percent_fit(attrs, self.adjust_fit(attrs, 'up'))
-        y = self.percent_young(attrs, self.adjust_young(attrs, 'up'))
-        value = round(self.total_pop(attrs) * f * y)
+    def total_younger_fitter(self):
+        f = self.percent_fit(self.adjust_fit('up'))
+        y = self.percent_young(self.adjust_young('up'))
+        value = round(self.total_pop() * f * y)
         if self.debug:
             print("Younger Fitter: " + str(value))
             print("    Younger: " + str(round(y, 2)))
             print("    Fitter:  " + str(round(f, 2)))
         return value
 
-    def total_fitter(self, attrs):
-        f = self.percent_fit(attrs, self.adjust_fit(attrs, 'up'))
-        h = (self.percent_height(attrs, self.adjust_height(attrs, 'down')) - self.percent_height(attrs, self.adjust_height(attrs, 'up')))
-        w = ((self.percent_income(attrs, self.adjust_income(attrs, 'down'))) - self.percent_income(attrs, self.adjust_income(attrs, 'up')))
-        value = round(self.total_pop(attrs) * f * h * w)
+    def total_fitter(self):
+        f = self.percent_fit(self.adjust_fit('up'))
+        h = (self.percent_height(self.adjust_height('down')) - self.percent_height(self.adjust_height('up')))
+        w = ((self.percent_income(self.adjust_income('down'))) - self.percent_income(self.adjust_income('up')))
+        value = round(self.total_pop() * f * h * w)
         if self.debug:
             print("Fitter: " + str(value))
             print("    Fitness: " + str(round(f, 2)))
@@ -424,11 +436,11 @@ class SMV(object):
             print("    Wealth:  " + str(round(w, 2)))
         return value
 
-    def total_taller(self, attrs):
-        f = (self.percent_fit(attrs, self.adjust_fit(attrs, 'down')) - self.percent_fit(attrs, self.adjust_fit(attrs, 'up')))
-        h = self.percent_height(attrs, self.adjust_height(attrs, 'up'))
-        w = ((self.percent_income(attrs, self.adjust_income(attrs, 'down'))) - self.percent_income(attrs, self.adjust_income(attrs, 'up')))
-        value = round(self.total_pop(attrs) * f * h * w)
+    def total_taller(self):
+        f = (self.percent_fit(self.adjust_fit('down')) - self.percent_fit(self.adjust_fit('up')))
+        h = self.percent_height(self.adjust_height('up'))
+        w = ((self.percent_income(self.adjust_income('down'))) - self.percent_income(self.adjust_income('up')))
+        value = round(self.total_pop() * f * h * w)
         if self.debug:
             print("Taller: " + str(value))
             print("    Fitness: " + str(round(f, 2)))
@@ -436,11 +448,11 @@ class SMV(object):
             print("    Wealth:  " + str(round(w, 2)))
         return value
 
-    def total_richer(self, attrs):
-        f = (self.percent_fit(attrs, self.adjust_fit(attrs, 'down')) - self.percent_fit(attrs, self.adjust_fit(attrs, 'up')))
-        h = (self.percent_height(attrs, self.adjust_height(attrs, 'down')) - self.percent_height(attrs, self.adjust_height(attrs, 'up')))
-        w = self.percent_income(attrs, self.adjust_income(attrs, 'up'))
-        value = round(self.total_pop(attrs) * f * h * w)
+    def total_richer(self):
+        f = (self.percent_fit(self.adjust_fit('down')) - self.percent_fit(self.adjust_fit('up')))
+        h = (self.percent_height(self.adjust_height('down')) - self.percent_height(self.adjust_height('up')))
+        w = self.percent_income(self.adjust_income('up'))
+        value = round(self.total_pop() * f * h * w)
         if self.debug:
             print("Richer: " + str(value))
             print("    Fitness: " + str(round(f, 2)))
@@ -448,11 +460,11 @@ class SMV(object):
             print("    Wealth:  " + str(round(w, 2)))
         return value
 
-    def total_fitter_taller(self, attrs):
-        f = self.percent_fit(attrs, self.adjust_fit(attrs, 'up')) 
-        h = self.percent_height(attrs, self.adjust_height(attrs, 'up'))
-        w = ((self.percent_income(attrs, self.adjust_income(attrs, 'down'))) - self.percent_income(attrs, self.adjust_income(attrs, 'up')))
-        value = round(self.total_pop(attrs) * f * h * w)
+    def total_fitter_taller(self):
+        f = self.percent_fit(self.adjust_fit('up')) 
+        h = self.percent_height(self.adjust_height('up'))
+        w = ((self.percent_income(self.adjust_income('down'))) - self.percent_income(self.adjust_income('up')))
+        value = round(self.total_pop() * f * h * w)
         if self.debug:
             print("Fitter Taller: " + str(value))
             print("    Fitness: " + str(round(f, 2)))
@@ -460,11 +472,11 @@ class SMV(object):
             print("    Wealth:  " + str(round(w, 2)))
         return value
 
-    def total_fitter_richer(self, attrs):
-        f = self.percent_fit(attrs, self.adjust_fit(attrs, 'up'))
-        h = (self.percent_height(attrs, self.adjust_height(attrs, 'down')) - self.percent_height(attrs, self.adjust_height(attrs, 'up')))
-        w = self.percent_income(attrs, self.adjust_income(attrs, 'up'))
-        value = round(self.total_pop(attrs) * f * h * w)
+    def total_fitter_richer(self):
+        f = self.percent_fit(self.adjust_fit('up'))
+        h = (self.percent_height(self.adjust_height('down')) - self.percent_height(self.adjust_height('up')))
+        w = self.percent_income(self.adjust_income('up'))
+        value = round(self.total_pop() * f * h * w)
         if self.debug:
             print("Fitter Richer: " + str(value))
             print("    Fitness: " + str(round(f, 2)))
@@ -472,11 +484,11 @@ class SMV(object):
             print("    Wealth:  " + str(round(w, 2)))
         return value
 
-    def total_taller_richer(self, attrs):
-        f = (self.percent_fit(attrs, self.adjust_fit(attrs, 'down')) - self.percent_fit(attrs, self.adjust_fit(attrs, 'up')))
-        h = self.percent_height(attrs, self.adjust_height(attrs, 'up'))
-        w = self.percent_income(attrs, self.adjust_income(attrs, 'up'))
-        value = round(self.total_pop(attrs) * f * h * w)
+    def total_taller_richer(self):
+        f = (self.percent_fit(self.adjust_fit('down')) - self.percent_fit(self.adjust_fit('up')))
+        h = self.percent_height(self.adjust_height('up'))
+        w = self.percent_income(self.adjust_income('up'))
+        value = round(self.total_pop() * f * h * w)
         if self.debug:
             print("Taller Richer: " + str(value))
             print("    Fitness: " + str(round(f, 2)))
@@ -484,11 +496,11 @@ class SMV(object):
             print("    Wealth:  " + str(round(w, 2)))
         return value
 
-    def total_fitter_taller_richer(self, attrs):
-        f = self.percent_fit(attrs, self.adjust_fit(attrs, 'up'))
-        h = self.percent_height(attrs, self.adjust_height(attrs, 'up'))
-        w = self.percent_income(attrs, self.adjust_income(attrs, 'up'))
-        value = round(self.total_pop(attrs) * f * h * w)
+    def total_fitter_taller_richer(self):
+        f = self.percent_fit(self.adjust_fit('up'))
+        h = self.percent_height(self.adjust_height('up'))
+        w = self.percent_income(self.adjust_income('up'))
+        value = round(self.total_pop() * f * h * w)
         if self.debug and not self.fitter_taller_richer_printed:
             print("Fitter Taller Richer: " + str(value))
             print("    Fitness: " + str(round(f, 2)))
@@ -513,7 +525,6 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
-    app = SMV(debug=args.debug)
     attrs_m = {
         'sex': 'male',
         'height': 74,
@@ -538,4 +549,5 @@ if __name__ == '__main__':
         'max_a': 45,
         'state': 'Minnesota',
     }
-    app(attrs_f)
+    app = SMV(debug=args.debug, attrs=attrs_f)
+    app()
