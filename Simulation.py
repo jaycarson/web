@@ -86,7 +86,7 @@ class Simulation(object):
             total_children = 0
             total_miscarriages = 0
             total_still_births = 0
-            total_children_with_down_syndrom = 0
+            total_children_with_down_syndrome = 0
             max_children = min(int(self.simulation_length_years / (40 / 52)) + 1, 40)
             
             if period not in self.records['details']:
@@ -94,7 +94,7 @@ class Simulation(object):
 
             for woman in self.population:
                 total_children += woman.children
-                total_children_with_down_syndrom += woman.children_with_down_syndrom
+                total_children_with_down_syndrome += woman.children_with_down_syndrome
                 total_miscarriages += woman.miscarriages
                 total_still_births += woman.still_births
 
@@ -104,10 +104,10 @@ class Simulation(object):
                 age = self.years + period // 12
         self.total_children = total_children
         self.total_children_percent = total_children / self.sample_size
-        self.total_children_with_down_syndrom = total_children_with_down_syndrom
-        self.total_children_with_down_syndrom_percent = total_children_with_down_syndrom / self.sample_size
+        self.total_children_with_down_syndrome = total_children_with_down_syndrome
+        self.total_children_with_down_syndrome_percent = total_children_with_down_syndrome / self.sample_size
         self.total_miscarriages = total_miscarriages
-        self.total_miscarriages_Percent = total_miscarriages / self.sample_size
+        self.total_miscarriages_percent = total_miscarriages / self.sample_size
         self.total_still_births = total_still_births
         self.total_still_births_percent = total_still_births / self.sample_size
 

@@ -19,11 +19,13 @@ class SMV(object):
         self.pop_by_state = yaml.load(open('./data/population_by_state_2013.yml', 'r'), Loader=yaml.FullLoader)
         self.smv_m = yaml.load(open('./data/smv_m.yml', 'r'), Loader=yaml.FullLoader)
         self.smv_f = yaml.load(open('./data/smv_f.yml', 'r'), Loader=yaml.FullLoader)
+        self.alpha_beta = yaml.load(open('./data/alpha_beta.yml', 'r'), Loader=yaml.FullLoader)
 
         self.minor = 2
         self.major = 4
 
         self.fitness = ''
+        self.percent = 0
             
         self.fitter_taller_richer_printed = False
 
@@ -35,9 +37,13 @@ class SMV(object):
         self.bodyfat_c = attrs['bodyfat_c']
         self.income = int(attrs['income'])
         self.age = int(attrs['age'])
-        self.min_a = int(attrs['min_a'])
-        self.max_a = int(attrs['max_a'])
+        self.min_a = 18
+        self.max_a = 45
         self.state = attrs['state']
+        self.age_female = 18
+
+        self.alpha = 1
+        self.beta = 1
 
     def __call__(self):
         if self.bodyfat > 0:
@@ -48,20 +54,22 @@ class SMV(object):
             self.fitness = 'bmi'
             self.bmi = self.bmi()
 
+        self.set_alpha_beta()
+
         if self.debug:
-            print(self.fitness +': ' + str(self.fitness))
+            print('Fitness: ' + str(self.fitness))
         if self.sex == 'male':
             print('Calling Male')
-            total = 0
-            total += self.total_better()
-            self.percent_male()
-            return 'SMV: ' + str(self.get_smv(total / self.total_pop(), self.sex))
+            return 'SMV: ' + str(self.get_smv(self.total_better() / self.total_pop(), self.sex))
         else:
             print('Calling Female')
-            total = 0
-            total += self.total_better()
-            self.percent_female()
-            return 'SMV: ' + str(self.get_smv(total / self.total_pop(), self.sex))
+            return 'SMV: ' + str(self.get_smv(self.total_better() / self.total_pop(), self.sex))
+
+    def alpha_mod(self, percent):
+        return 1 * (1 - self.alpha) + percent * (self.alpha)
+
+    def beta_mod(self, percent):
+        return 1 * (1 - self.beta) + percent * (self.beta)
 
     def bmi(self):
         return round(self.weight / (self.height * self.height) * 703)
@@ -268,10 +276,12 @@ class SMV(object):
         if sex == 'male':
             for x in self.smv_m:
                 if percent < self.smv_m[x]:
+                    self.percent = percent
                     return x
         else:
             for x in self.smv_f:
                 if percent < self.smv_f[x]:
+                    self.percent = percent
                     return x
 
     def percent_fit(self, fit=None):
@@ -329,36 +339,23 @@ class SMV(object):
             total_younger += percent
         return younger / total_younger
 
-    def percent_female(self):
-        pop = self.total_pop()
-        #base = pop * self.percent_fit() * self.percent_height() * self.percent_income()
-        self.mod = False
-
-        total = 0
-        total += self.total_better()
-
-        print('total: ' + str(total))
-        print('SMV: ' + str(self.get_smv(total / self.total_pop(), self.sex)))
+    def set_alpha_beta(self):
+        if self.sex == 'male':
+            if self.age_female > 50:
+                age = 50
+            else:
+                age = self.age_female
+            self.alpha = self.alpha_beta[age]['alpha']
+            self.beta = self.alpha_beta[age]['beta']
     
-    def percent_male(self):
-        pop = self.total_pop()
-        #base = pop * self.percent_fit() * self.percent_youth()
-        self.mod = False
-
-        total = 0
-        total += self.total_better()
-
-        print('total: ' + str(total))
-        print('SMV: ' + str(self.get_smv(total / self.total_pop(), self.sex)))
-
     def total_pop(self):
         total_population = 0
         for x in range(1, 85+1):
             if x > self.min_a and x < self.max_a:
                 total_population += self.pop_by_age[x]
-        value = round(total_population / 100 * self.pop_by_state[self.state][self.sex])
-        if self.debug and False:
-            print("Total Pop: " + str(value))
+                value = round(total_population / 100 * self.pop_by_state[self.state][self.sex])
+            if self.debug and False:
+                print("Total Pop: " + str(value))
         return value
 
     def total_base(self):
@@ -374,7 +371,6 @@ class SMV(object):
         return value
 
     def total_better(self):
-        self.mod = False
         total = 0
 
         if self.sex == 'male':
@@ -389,7 +385,6 @@ class SMV(object):
             total += self.total_slimmer()
             total += self.total_younger()
             total += self.total_younger_fitter()
-        self.mod = False
         if self.debug:
             print("Better: " + str(total))
         return total
@@ -428,6 +423,8 @@ class SMV(object):
         f = self.percent_fit(self.adjust_fit('up'))
         h = (self.percent_height(self.adjust_height('down')) - self.percent_height(self.adjust_height('up')))
         w = ((self.percent_income(self.adjust_income('down'))) - self.percent_income(self.adjust_income('up')))
+        f = self.alpha_mod(f)
+        w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug:
             print("Fitter: " + str(value))
@@ -440,6 +437,8 @@ class SMV(object):
         f = (self.percent_fit(self.adjust_fit('down')) - self.percent_fit(self.adjust_fit('up')))
         h = self.percent_height(self.adjust_height('up'))
         w = ((self.percent_income(self.adjust_income('down'))) - self.percent_income(self.adjust_income('up')))
+        f = self.alpha_mod(f)
+        w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug:
             print("Taller: " + str(value))
@@ -452,6 +451,8 @@ class SMV(object):
         f = (self.percent_fit(self.adjust_fit('down')) - self.percent_fit(self.adjust_fit('up')))
         h = (self.percent_height(self.adjust_height('down')) - self.percent_height(self.adjust_height('up')))
         w = self.percent_income(self.adjust_income('up'))
+        f = self.alpha_mod(f)
+        w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug:
             print("Richer: " + str(value))
@@ -464,6 +465,8 @@ class SMV(object):
         f = self.percent_fit(self.adjust_fit('up')) 
         h = self.percent_height(self.adjust_height('up'))
         w = ((self.percent_income(self.adjust_income('down'))) - self.percent_income(self.adjust_income('up')))
+        f = self.alpha_mod(f)
+        w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug:
             print("Fitter Taller: " + str(value))
@@ -476,6 +479,8 @@ class SMV(object):
         f = self.percent_fit(self.adjust_fit('up'))
         h = (self.percent_height(self.adjust_height('down')) - self.percent_height(self.adjust_height('up')))
         w = self.percent_income(self.adjust_income('up'))
+        f = self.alpha_mod(f)
+        w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug:
             print("Fitter Richer: " + str(value))
@@ -488,6 +493,8 @@ class SMV(object):
         f = (self.percent_fit(self.adjust_fit('down')) - self.percent_fit(self.adjust_fit('up')))
         h = self.percent_height(self.adjust_height('up'))
         w = self.percent_income(self.adjust_income('up'))
+        f = self.alpha_mod(f)
+        w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug:
             print("Taller Richer: " + str(value))
@@ -500,6 +507,8 @@ class SMV(object):
         f = self.percent_fit(self.adjust_fit('up'))
         h = self.percent_height(self.adjust_height('up'))
         w = self.percent_income(self.adjust_income('up'))
+        f = self.alpha_mod(f)
+        w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug and not self.fitter_taller_richer_printed:
             print("Fitter Taller Richer: " + str(value))
@@ -533,8 +542,6 @@ if __name__ == '__main__':
         'bodyfat_c': 0,
         'income': 135000,
         'age': 40,
-        'min_a': 25,
-        'max_a': 45,
         'state': 'Minnesota',
     }
     attrs_f = {
@@ -545,8 +552,6 @@ if __name__ == '__main__':
         'bodyfat_c': 0,
         'income': 35000,
         'age': 38,
-        'min_a': 18,
-        'max_a': 45,
         'state': 'Minnesota',
     }
     app = SMV(debug=args.debug, attrs=attrs_m)

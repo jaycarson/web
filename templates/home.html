@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %} Home Page {% endblock %}
+{% block content %}
+
+<div class:"sidebar">
+    <ul>
+        <li><a class="active" href="/">Home</a></li>
+        <li><a href="/smv">SMV</a></li>
+        <li><a href="/fertility">Fertility</a></li>
+    </ul>
+</div>
+
+{{ content }}
+{% endblock %}

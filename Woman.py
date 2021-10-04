@@ -13,7 +13,7 @@ class Woman(object):
         self.twins_run_in_family = twins
         self.age = years + months / 12.0
         self.children = 0
-        self.children_with_down_syndrom = 0
+        self.children_with_down_syndrome = 0
         self.miscarriages = 0
         self.still_births = 0
         self.months_trying = 0
@@ -118,8 +118,8 @@ class Woman(object):
         count = children
 
         for child in range(0, count):
-            if self.random_obj.random() < self.get_down_syndrom_chance():
-                self.children_with_down_syndrom += 1
+            if self.random_obj.random() < self.get_down_syndrome_chance():
+                self.children_with_down_syndrome += 1
             if self.random_obj.random() < self.get_still_birth_chance():
                 children -= 1
                 self.still_births += 1
@@ -127,7 +127,7 @@ class Woman(object):
 
         return children
 
-    def get_down_syndrom_chance(self):
+    def get_down_syndrome_chance(self):
         if self.years < 25:
             return 1.0 / 1200.0
         elif self.years < 35:

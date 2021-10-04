@@ -1,21 +1,64 @@
 {% extends "base.html" %}
-{% block title %} Home Page {% endblock %}
+{% block title %} SMV Page {% endblock %}
 
 {% block content %}
-<form method="post",  action="/smv">
-  <h4>Sex:</h4>
-  {{ form.sex }}
-  <h4>Age:</h4>
-  {{ form.age }}
-  <h4>Height:</h4>
-  {{ form.height }}
-  <h4>Weight:</h4>
-  {{ form.weight }}
-  <br>
-  <br>
-  <br>
-  <input type="submit">
-</form>
+<div class:"sidebar">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a class="active" href="/smv">SMV</a></li>
+        <li><a href="/fertility">Fertility</a></li>
+    </ul>
+</div>
 
-{{ content }}
+<body>
+<div class="body-text">
+  <form method="post",  action="/smv">
+  <div class="row">
+    <div class="column">
+      <h2>Characteristics:</h2>
+        <h4>Sex: Male</h4>
+        <h4>Age:{{ form.age_m }}</h4>
+        <h4>Height:{{ form.height_m }}</h4>
+        <h4>Weight:{{ form.weight_m }}</h4>
+        <h4>Body Fat %:{{ form.bf_m }}</h4>
+        <h4>Body Fat Calipers%:{{ form.bf_c_m }}</h4>
+        <h4>Income:{{ form.income_m }}</h4>
+    </div>
+    <div class="column">
+      <h2>Results</h2>
+      <p>SMV: {{ smv_m }}</p>
+      <p>Percent: Top {{ percent_m }} % </p>
+    </div>
+    <div class="column">
+      <h2>Description</h2>
+      <p>This simulation determines your relative sexual market place value
+         (SMV) to the other gender.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <h2>Characteristics:</h2>
+        <h4>Sex: Female</h4>
+        <h4>Age:{{ form.age_f }}</h4>
+        <h4>Height:{{ form.height_f }}</h4>
+        <h4>Weight:{{ form.weight_f }}</h4>
+        <h4>Body Fat %:{{ form.bf_f }}</h4>
+        <h4>Body Fat Calipers%:{{ form.bf_c_f }}</h4>
+        <h4>Income:{{ form.income_f }}</h4>
+        <input type="submit">
+    </div>
+    <div class="column">
+      <h2>Results</h2>
+      <p>SMV: {{ smv_f }}</p>
+      <p>Percent: Top {{ percent_f }} % </p>
+    </div>
+    <div class="column">
+      <h2>Description</h2>
+      <p>This simulation determines your relative sexual market place value
+         (SMV) to the other gender.</p>
+    </div>
+  </form>
+  </div>
+</div>
+
 {% endblock %}

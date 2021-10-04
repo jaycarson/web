@@ -1,6 +1,9 @@
 <html lang="en">
 <head>
 <style>
+    * {
+        box-sizing: border-box;
+    }
     .sidebar {
         height: 100%;
         width: 150px;
@@ -39,18 +42,11 @@
         background-color: #555;
         color: white;
     }
+    .column { float: left; width: 33.33%; padding: 10px; }
+    .row:after { content: ""; display: table; clear: both; }
 </style>
 </head>
 <body>
-<div class:"sidebar">
-    <ul>
-        <li><a class="active" href="/">Home</a></li>
-        <li><a href="/smv">SMV</a></li>
-        <li><a href="/fertility">Fertility</a></li>
-    </ul>
-</div>
-<div class="body-text">
-    {% block content %}
-    {% endblock %}
-</div>
+{% block content %}
+{% endblock %}
 </body>

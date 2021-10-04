@@ -2,20 +2,46 @@
 {% block title %} Home Page {% endblock %}
 
 {% block content %}
-<form method="post",  action="/fertility">
-  <h4>Sex:</h4>
-  {{ form.sex }}
-  <h4>Age:</h4>
-  {{ form.age }}
-  <h4>Height:</h4>
-  {{ form.height }}
-  <h4>Weight:</h4>
-  {{ form.weight }}
-  <br>
-  <br>
-  <br>
-  <input type="submit">
-</form>
+<div class:"sidebar">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/smv">SMV</a></li>
+        <li><a class="active" href="/fertility">Fertility</a></li>
+    </ul>
+</div>
 
-{{ content }}
+<body>
+<div class="body-text">
+  <div class="row">
+  <div class="column">
+    <h2>Characteristics:</h2>
+    <form method="post",  action="/fertility">
+      <h4>Age:{{ form.age_f }}</h4>
+      <h4>Months:{{ form.month }}</h4>
+      <h4>Height:{{ form.height_f }}</h4>
+      <h4>Weight:{{ form.weight_f }}</h4>
+      <h4>End Year:{{ form.end_year }}</h4>
+    <input type="submit">
+  </form>
+  </div>
+  <div class="column">
+    <h2>Results</h2>
+       <p>Children: {{ total_children }}</p>
+       <p>Down Syndrome Children: {{ total_children_down_syndrome }}</p>
+       <p>Miscarriages: {{ total_miscarriages }}</p>
+       <p>Still Births: {{ total_still_births }}</p>
+    <p>{{ content }}</p>
+  </div>
+  <div class="column">
+    <h2>Description</h2>
+    <p>This simulation determines the results of a woman attempting to have
+       children over a specific interval. This simulation assumes that the
+       woman will attempt to get pregnant consistently and without a break.
+       Understandably, this is not completely reasonable. This assumption
+       means that a woman will attempt to get pregnant right after every
+       miscarriage.</p>
+  </div>
+  </div>
+</div>
+
 {% endblock %}

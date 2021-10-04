@@ -1,0 +1,99 @@
+18:
+  alpha: 1.00
+  beta: 0.05
+19:
+  alpha: 0.99
+  beta: 0.10
+20:
+  alpha: 0.98
+  beta: 0.15
+21:
+  alpha: 0.97
+  beta: 0.20
+22:
+  alpha: 0.96
+  beta: 0.25
+23:
+  alpha: 0.95
+  beta: 0.30
+24:
+  alpha: 0.94
+  beta: 0.35
+25:
+  alpha: 0.93
+  beta: 0.40
+26:
+  alpha: 0.92
+  beta: 0.50
+27:
+  alpha: 0.91
+  beta: 0.60
+28:
+  alpha: 0.90
+  beta: 0.75
+29:
+  alpha: 0.90
+  beta: 0.90
+30:
+  alpha: 0.95
+  beta: 0.95
+31:
+  alpha: 1.0
+  beta: 1.0
+32:
+  alpha: 0.9
+  beta: 1.0
+33:
+  alpha: 0.8
+  beta: 1.0
+34:
+  alpha: 0.7
+  beta: 1.0
+35:
+  alpha: 0.6
+  beta: 0.9
+36:
+  alpha: 0.7
+  beta: 0.8
+37:
+  alpha: 0.8
+  beta: 0.7
+38:
+  alpha: 0.9
+  beta: 0.6
+39:
+  alpha: 0.9
+  beta: 0.6
+40:
+  alpha: 1.0
+  beta: 0.6
+41:
+  alpha: 0.9
+  beta: 0.6
+42:
+  alpha: 0.8
+  beta: 0.6
+43:
+  alpha: 0.7
+  beta: 0.6
+44:
+  alpha: 0.6
+  beta: 0.6
+45:
+  alpha: 0.5
+  beta: 0.6
+46:
+  alpha: 0.5
+  beta: 0.6
+47:
+  alpha: 0.5
+  beta: 0.6
+48:
+  alpha: 0.5
+  beta: 0.6
+49:
+  alpha: 0.5
+  beta: 0.6
+50:
+  alpha: 0.5
+  beta: 0.6
