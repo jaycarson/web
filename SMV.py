@@ -26,6 +26,7 @@ class SMV(object):
 
         self.fitness = ''
         self.percent = 0
+        self.bmi = 0
             
         self.fitter_taller_richer_printed = False
 
@@ -45,6 +46,10 @@ class SMV(object):
         self.alpha = 1
         self.beta = 1
 
+        self.results_smv = 0
+        self.results_weight = ''
+        self.results_income = ''
+
     def __call__(self):
         if self.bodyfat > 0:
             self.fitness = 'bodyfat'
@@ -52,18 +57,16 @@ class SMV(object):
             self.fitness = 'bodyfat_c'
         else:
             self.fitness = 'bmi'
-            self.bmi = self.bmi()
+            self.bmi = self.calc_bmi()
 
         self.set_alpha_beta()
 
         if self.debug:
             print('Fitness: ' + str(self.fitness))
-        if self.sex == 'male':
-            print('Calling Male')
-            return 'SMV: ' + str(self.get_smv(self.total_better() / self.total_pop(), self.sex))
-        else:
-            print('Calling Female')
-            return 'SMV: ' + str(self.get_smv(self.total_better() / self.total_pop(), self.sex))
+        
+        self.generate_results()
+        
+        return self.results_smv
 
     def alpha_mod(self, percent):
         return 1 * (1 - self.alpha) + percent * (self.alpha)
@@ -71,13 +74,16 @@ class SMV(object):
     def beta_mod(self, percent):
         return 1 * (1 - self.beta) + percent * (self.beta)
 
-    def bmi(self):
-        return round(self.weight / (self.height * self.height) * 703)
+    def calc_bmi(self):
+        self.bmi = round(self.weight / (self.height * self.height) * 703)
+        if self.debug:
+            print('BMI: ' + str(self.bmi))
+        return self.bmi
 
     def adjust_fit(self, direction):
         value = 0
         if self.fitness == 'bmi':
-            bmi = self.bmi
+            bmi = self.calc_bmi()
 
             if direction == 'up':
                 if bmi >= 37:
@@ -269,6 +275,34 @@ class SMV(object):
             else:
                 return 50
 
+    def generate_results(self):
+        self.results_smv = self.get_smv(self.total_better() / self.total_pop(), self.sex)
+
+        if self.sex == 'male':
+            if self.bodyfat >= 30 or self.bodyfat_c >= 30 or self.bmi >= 30:
+                self.results_weight = 'Weight: You are fat. You need to lose weight.'
+            elif self.bodyfat >= 25 or self.bodyfat_c >= 25 or self.bmi >= 25:
+                self.results_weight = 'Weight: You are on the right track, but you still need to lose weight.'
+            else:
+                self.results_weight = 'Weight: Keep on doing what you are doing and continue to work out.'
+
+            if self.income < 43206:
+                self.results_income = 'Income: You make less than the average income. You need to improve your skills, work harder, and make more money.'
+            elif self.income < 75050:
+                self.results_income = 'Income: You make just better than the average income. You need to improve your skills, work harder, and make more money.'
+            elif self.income < 100000:
+                self.results_income = 'Income: You are doing well, but not well enough. You need to improve your skills, work harder, and make more money.'
+            else:
+                self.results_income = 'Income: You are doing well, but it will never be enough. You need to improve your skills, work harder, and make more money.'
+        else:
+            if self.bodyfat >= 40 or self.bodyfat_c >= 40 or self.bmi >= 30:
+                self.results_weight = 'Weight: You are fat. You need to lose weight.'
+            elif self.bodyfat >= 35 or self.bodyfat_c >= 35 or self.bmi >= 25:
+                self.results_weight = 'Weight: You are on the right track, but you still need to lose weight.'
+            else:
+                self.results_weight = 'Weight: Keep on doing what you are doing and continue to work out.'
+
+
     def get_smv(self, percent, sex):
         percent *= 100
         if self.debug:
@@ -424,6 +458,7 @@ class SMV(object):
         h = (self.percent_height(self.adjust_height('down')) - self.percent_height(self.adjust_height('up')))
         w = ((self.percent_income(self.adjust_income('down'))) - self.percent_income(self.adjust_income('up')))
         f = self.alpha_mod(f)
+        h = self.alpha_mod(h)
         w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug:
@@ -438,6 +473,7 @@ class SMV(object):
         h = self.percent_height(self.adjust_height('up'))
         w = ((self.percent_income(self.adjust_income('down'))) - self.percent_income(self.adjust_income('up')))
         f = self.alpha_mod(f)
+        h = self.alpha_mod(h)
         w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug:
@@ -452,6 +488,7 @@ class SMV(object):
         h = (self.percent_height(self.adjust_height('down')) - self.percent_height(self.adjust_height('up')))
         w = self.percent_income(self.adjust_income('up'))
         f = self.alpha_mod(f)
+        h = self.alpha_mod(h)
         w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug:
@@ -466,6 +503,7 @@ class SMV(object):
         h = self.percent_height(self.adjust_height('up'))
         w = ((self.percent_income(self.adjust_income('down'))) - self.percent_income(self.adjust_income('up')))
         f = self.alpha_mod(f)
+        h = self.alpha_mod(h)
         w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug:
@@ -480,6 +518,7 @@ class SMV(object):
         h = (self.percent_height(self.adjust_height('down')) - self.percent_height(self.adjust_height('up')))
         w = self.percent_income(self.adjust_income('up'))
         f = self.alpha_mod(f)
+        h = self.alpha_mod(h)
         w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug:
@@ -494,6 +533,7 @@ class SMV(object):
         h = self.percent_height(self.adjust_height('up'))
         w = self.percent_income(self.adjust_income('up'))
         f = self.alpha_mod(f)
+        h = self.alpha_mod(h)
         w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug:
@@ -508,6 +548,7 @@ class SMV(object):
         h = self.percent_height(self.adjust_height('up'))
         w = self.percent_income(self.adjust_income('up'))
         f = self.alpha_mod(f)
+        h = self.alpha_mod(h)
         w = self.beta_mod(w)
         value = round(self.total_pop() * f * h * w)
         if self.debug and not self.fitter_taller_richer_printed:

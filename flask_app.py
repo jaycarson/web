@@ -149,13 +149,36 @@ def smv():
 
     form = SimpleForm()
 
+    difference = calc_smv_m - calc_smv_f
+    if calc_smv_m < calc_smv_f:
+        results_m = 'You are lower SMV than her. If she does get interested in you, then do not get attached. This relationship will probably not last.'
+        results_f = 'You are higher SMV than him. You may like him in this moment, but it will not last.'
+    elif difference < 1 and difference > -1:
+        results_m = 'You are about the same SMV as her. Do not get attached. Her tastes and opinions will eventually change. You will not measure up. Then she will drop you.'
+        results_f = 'You are about the same SMV as him. You may like him in this moment, but it will not last.'
+    elif difference >= 1 and difference < 2:
+        results_m = 'You have a little higher SMV than her. This is probably an appropriate match.'
+        results_f = 'You have a little lower SMV than him. You will probably feel satisfied in this relationship.'
+    else:
+        results_m = 'You have a higher SMV than her. You are out of her league and can do better.'
+        results_f = 'You have a lower SMV than him. If he does not recognize his value, then you should consider yourself lucky and try to lock him down.'
+
+    if calc_smv_f >= 8.5:
+        results_m = 'She belongs to the streets. Bang and pass.'
+        
+
     return render_template(
         'smv.html',
         form=form,
-        smv_m=str(calc_smv_m),
+        smv_m='SMV: ' + str(calc_smv_m),
         percent_m=str(round(app_m.percent, 1)),
-        smv_f=str(calc_smv_f),
+        smv_f='SMV: ' + str(calc_smv_f),
         percent_f=str(round(app_f.percent, 1)),
+        results_weight_m=app_m.results_weight,
+        results_weight_f=app_f.results_weight,
+        results_income_m=app_m.results_income,
+        results_m=results_m,
+        results_f=results_f,
     )
 
 
