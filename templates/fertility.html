@@ -20,34 +20,48 @@
 <body>
 <div class="body-text">
   <div class="row">
-  <div class="column">
-    <h2>Characteristics:</h2>
-    <form method="post",  action="/fertility">
-      <h4>Age:{{ form.age_f }}</h4>
-      <h4>Months:{{ form.month }}</h4>
-      <h4>Height:{{ form.height_f }}</h4>
-      <h4>Weight:{{ form.weight_f }}</h4>
-      <h4>End Year:{{ form.end_year }}</h4>
-    <input type="submit">
-  </form>
-  </div>
-  <div class="column">
-    <h2>Results</h2>
-       <p>Children: {{ total_children }}</p>
-       <p>Down Syndrome Children: {{ total_children_down_syndrome }}</p>
-       <p>Miscarriages: {{ total_miscarriages }}</p>
-       <p>Still Births: {{ total_still_births }}</p>
-    <p>{{ content }}</p>
-  </div>
-  <div class="column">
-    <h2>Description</h2>
-    <p>This simulation determines the results of a woman attempting to have
-       children over a specific interval. This simulation assumes that the
-       woman will attempt to get pregnant consistently and without a break.
-       Understandably, this is not completely reasonable. This assumption
-       means that a woman will attempt to get pregnant right after every
-       miscarriage.</p>
-  </div>
+    <div class="column">
+      <h2>Characteristics:</h2>
+      <form method="post",  action="/fertility">
+        <h4>Age:{{ form.age_f }}</h4>
+        <h4>Months:{{ form.month }}</h4>
+        <h4>Height:{{ form.height_f }}</h4>
+        <h4>Weight:{{ form.weight_f }}</h4>
+        <h4>End Year:{{ form.end_year }}</h4>
+      <input type="submit">
+    </form>
+    </div>
+    <div class="column">
+      <h2>Results</h2>
+         <p>Children: {{ total_children }}</p>
+         <p>Down Syndrome Children: {{ total_children_down_syndrome }}</p>
+         <p>Miscarriages: {{ total_miscarriages }}</p>
+         <p>Still Births: {{ total_still_births }}</p>
+         <table>
+           <tr><th>Children</th><th>Percent</th></tr>
+           <tr><td>0</td><td>{{ r_0 }} %</td></tr>
+           <tr><td>1</td><td>{{ r_1 }} %</td></tr>
+           <tr><td>2</td><td>{{ r_2 }} %</td></tr>
+           <tr><td>3</td><td>{{ r_3 }} %</td></tr>
+           <tr><td>4</td><td>{{ r_4 }} %</td></tr>
+           <tr><td>5</td><td>{{ r_5 }} %</td></tr>
+           <tr><td>6</td><td>{{ r_6 }} %</td></tr>
+           <tr><td>7</td><td>{{ r_7 }} %</td></tr>
+           <tr><td>8</td><td>{{ r_8 }} %</td></tr>
+           <tr><td>9</td><td>{{ r_9 }} %</td></tr>
+           <tr><td>10+</td><td>{{ r_10 }} %</td></tr>
+         </table>
+      <p>{{ content }}</p>
+    </div>
+    <div class="column">
+      <h2>Description</h2>
+      <p>This simulation determines the results of a woman attempting to have
+         children over a specific interval. This simulation assumes that the
+         woman will attempt to get pregnant consistently and without a break.
+         Understandably, this is not completely reasonable. This assumption
+         means that a woman will attempt to get pregnant right after every
+         miscarriage.</p>
+    </div>
   </div>
 </div>
 

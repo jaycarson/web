@@ -91,13 +91,26 @@ def fertility():
     )
     sim()
 
+    sample_size = sim.results['sample size']
+
     return render_template(
         'fertility.html',
         form=form,
-        total_children=sim.total_children_percent,
-        total_children_down_syndrome=sim.total_children_with_down_syndrome_percent,
-        total_miscarriages=sim.total_miscarriages_percent,
-        total_still_births=sim.total_still_births_percent,
+        total_children=sim.results['total children'] / sample_size,
+        total_children_down_syndrome=sim.results['total children with down syndrome'] / sample_size,
+        total_miscarriages=sim.results['total miscarriages'] / sample_size,
+        total_still_births=sim.results['total still births'] / sample_size,
+        r_0=round(sim.results[0] / sample_size * 100, 2),
+        r_1=round(sim.results[1] / sample_size * 100, 2),
+        r_2=round(sim.results[2] / sample_size * 100, 2),
+        r_3=round(sim.results[3] / sample_size * 100, 2),
+        r_4=round(sim.results[4] / sample_size * 100, 2),
+        r_5=round(sim.results[5] / sample_size * 100, 2),
+        r_6=round(sim.results[6] / sample_size * 100, 2),
+        r_7=round(sim.results[7] / sample_size * 100, 2),
+        r_8=round(sim.results[8] / sample_size * 100, 2),
+        r_9=round(sim.results[9] / sample_size * 100, 2),
+        r_10=round(sim.results[10] / sample_size * 100, 2),
     )
 
 

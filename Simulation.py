@@ -76,44 +76,32 @@ class Simulation(object):
                 'IVF_Allowed': ivf_allowed,
                 'Duration': self.duration,
             },
-            'details': {}
+        }
+        self.results = {
+            'sample size': self.sample_size,
+            'total children': 0,
+            'total miscarriages': 0,
+            'total still births': 0,
+            'total children with down syndrome': 0,
+            0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0,
+            6: 0, 7: 0, 8: 0, 9: 0, 10: 0,
         }
 
     def __call__(self):
-        total_children = 0
-        total_miscarriages = 0
-        total_still_births = 0
-        total_children_with_down_syndrome = 0
         for period in range(0, self.duration + 1):
             for woman in self.population:
                 woman()
-            total_children = 0
-            total_miscarriages = 0
-            total_still_births = 0
-            total_children_with_down_syndrome = 0
-            max_children = min(int(self.simulation_length_years / (40 / 52)) + 1, 40)
             
-            if period not in self.records['details']:
-                self.records['details'][period] = {}
-
-            for woman in self.population:
-                total_children += woman.children
-                total_children_with_down_syndrome += woman.children_with_down_syndrome
-                total_miscarriages += woman.miscarriages
-                total_still_births += woman.still_births
-
-            if self.months + period % 12 > 12:
-                age = self.years + period // 12 + 1
+        for woman in self.population:
+            self.results['total children'] += woman.children
+            self.results['total children with down syndrome'] += woman.children_with_down_syndrome
+            self.results['total miscarriages'] += woman.miscarriages
+            self.results['total still births'] += woman.still_births
+            
+            if woman.children > 10:
+                self.results[10] += 1
             else:
-                age = self.years + period // 12
-        self.total_children = total_children
-        self.total_children_percent = total_children / self.sample_size
-        self.total_children_with_down_syndrome = total_children_with_down_syndrome
-        self.total_children_with_down_syndrome_percent = total_children_with_down_syndrome / self.sample_size
-        self.total_miscarriages = total_miscarriages
-        self.total_miscarriages_percent = total_miscarriages / self.sample_size
-        self.total_still_births = total_still_births
-        self.total_still_births_percent = total_still_births / self.sample_size
+                self.results[woman.children] += 1
 
 
 if __name__ == '__main__':
