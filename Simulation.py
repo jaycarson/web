@@ -38,9 +38,9 @@ class Simulation(object):
 
         self.key = '-'.join(keys)
 
-        chance_to_conceive = yaml.load(open('data/fertility.yml', 'r'), Loader=yaml.FullLoader)
-        chance_to_miscarry = yaml.load(open('data/miscarriage.yml', 'r'), Loader=yaml.FullLoader)
-        chance_on_ivf = yaml.load(open('data/ivf.yml', 'r'), Loader=yaml.FullLoader)
+        chance_to_conceive = yaml.load(open('./web/data/fertility.yml', 'r'), Loader=yaml.FullLoader)
+        chance_to_miscarry = yaml.load(open('./web/data/miscarriage.yml', 'r'), Loader=yaml.FullLoader)
+        chance_on_ivf = yaml.load(open('./web/data/ivf.yml', 'r'), Loader=yaml.FullLoader)
 
         self.population = []
         seed = 0

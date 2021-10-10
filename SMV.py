@@ -6,20 +6,20 @@ class SMV(object):
     def __init__(self, debug, attrs):
         self.debug = debug
         self.data = {}
-        self.bmi_m = yaml.load(open('./data/bmi_m.yml', 'r'), Loader=yaml.FullLoader)
-        self.bmi_f = yaml.load(open('./data/bmi_f.yml', 'r'), Loader=yaml.FullLoader)
-        self.bf_m = yaml.load(open('./data/bodyfat_m.yml', 'r'), Loader=yaml.FullLoader)
-        self.bf_f = yaml.load(open('./data/bodyfat_f.yml', 'r'), Loader=yaml.FullLoader)
-        self.bf_m_c = yaml.load(open('./data/bodyfat_m_caliper.yml', 'r'), Loader=yaml.FullLoader)
-        self.bf_f_c = yaml.load(open('./data/bodyfat_f_caliper.yml', 'r'), Loader=yaml.FullLoader)
-        self.height_f = yaml.load(open('./data/height_f.yml', 'r'), Loader=yaml.FullLoader)
-        self.height_m = yaml.load(open('./data/height_m.yml', 'r'), Loader=yaml.FullLoader)
-        self.incomes = yaml.load(open('./data/income.yml', 'r'), Loader=yaml.FullLoader)
-        self.pop_by_age = yaml.load(open('./data/population_by_age.yml', 'r'), Loader=yaml.FullLoader)
-        self.pop_by_state = yaml.load(open('./data/population_by_state_2013.yml', 'r'), Loader=yaml.FullLoader)
-        self.smv_m = yaml.load(open('./data/smv_m.yml', 'r'), Loader=yaml.FullLoader)
-        self.smv_f = yaml.load(open('./data/smv_f.yml', 'r'), Loader=yaml.FullLoader)
-        self.alpha_beta = yaml.load(open('./data/alpha_beta.yml', 'r'), Loader=yaml.FullLoader)
+        self.bmi_m = yaml.load(open('./web/data/bmi_m.yml', 'r'), Loader=yaml.FullLoader)
+        self.bmi_f = yaml.load(open('./web/data/bmi_f.yml', 'r'), Loader=yaml.FullLoader)
+        self.bf_m = yaml.load(open('./web/data/bodyfat_m.yml', 'r'), Loader=yaml.FullLoader)
+        self.bf_f = yaml.load(open('./web/data/bodyfat_f.yml', 'r'), Loader=yaml.FullLoader)
+        self.bf_m_c = yaml.load(open('./web/data/bodyfat_m_caliper.yml', 'r'), Loader=yaml.FullLoader)
+        self.bf_f_c = yaml.load(open('./web/data/bodyfat_f_caliper.yml', 'r'), Loader=yaml.FullLoader)
+        self.height_f = yaml.load(open('./web/data/height_f.yml', 'r'), Loader=yaml.FullLoader)
+        self.height_m = yaml.load(open('./web/data/height_m.yml', 'r'), Loader=yaml.FullLoader)
+        self.incomes = yaml.load(open('./web/data/income.yml', 'r'), Loader=yaml.FullLoader)
+        self.pop_by_age = yaml.load(open('./web/data/population_by_age.yml', 'r'), Loader=yaml.FullLoader)
+        self.pop_by_state = yaml.load(open('./web/data/population_by_state_2013.yml', 'r'), Loader=yaml.FullLoader)
+        self.smv_m = yaml.load(open('./web/data/smv_m.yml', 'r'), Loader=yaml.FullLoader)
+        self.smv_f = yaml.load(open('./web/data/smv_f.yml', 'r'), Loader=yaml.FullLoader)
+        self.alpha_beta = yaml.load(open('./web/data/alpha_beta.yml', 'r'), Loader=yaml.FullLoader)
 
         self.minor = 2
         self.major = 4
