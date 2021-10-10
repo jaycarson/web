@@ -117,16 +117,16 @@ def fertility():
 @app.route('/smv',methods=['post','get'])
 def smv():
     height_m = request.form.get('height_m') or 60
-    weight_m = request.form.get('weight_m') or 200
-    age_m = request.form.get('age_m') or 30
-    income_m = request.form.get('income_m') or 40000
+    weight_m = request.form.get('weight_m') or 100
+    age_m = request.form.get('age_m') or 18
+    income_m = request.form.get('income_m') or 10000
     bf_m = request.form.get('bf_m') or 0
     bf_c_m = request.form.get('bf_m_c') or 0
     
     height_f = request.form.get('height_f') or 60
-    weight_f = request.form.get('weight_f') or 200
-    age_f = request.form.get('age_f') or 30
-    income_f = request.form.get('income_f') or 40000
+    weight_f = request.form.get('weight_f') or 100
+    age_f = request.form.get('age_f') or 19
+    income_f = request.form.get('income_f') or 10000
     bf_f = request.form.get('bf_f') or 0
     bf_c_f = request.form.get('bf_c_f') or 0
 
