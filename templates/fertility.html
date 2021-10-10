@@ -2,12 +2,19 @@
 {% block title %} Home Page {% endblock %}
 
 {% block content %}
-<div class:"sidebar">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/smv">SMV</a></li>
-        <li><a class="active" href="/fertility">Fertility</a></li>
-    </ul>
+<div class="row">
+  <div class="column">
+    <div class:"sidebar">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/smv">SMV</a></li>
+            <li><a class="active" href="/fertility">Fertility</a></li>
+        </ul>
+    </div>
+  </div>
+  <div class="column">
+  <img src="{{url_for('static', filename='RPcalculations1.png')}}">
+  </div>
 </div>
 
 <body>

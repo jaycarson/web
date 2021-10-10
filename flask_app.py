@@ -143,11 +143,31 @@ def smv():
     app_m = SMV(debug=True, attrs=attrs_m)
     app_m.age_female = int(age_f)
     calc_smv_m = app_m()
+    
+    app_m_actual = SMV(debug=True, attrs=attrs_m)
+    app_m_actual.age_female = int(age_f)
+    app_m_actual.male_actual = True
+    calc_smv_m_actual = app_m_actual()
 
     app_f = SMV(debug=True, attrs=attrs_f)
     calc_smv_f = app_f()
 
     form = SimpleForm()
+
+    app_f.age = int(age_f) + 5
+    app_f.weight = int(weight_f) + 10
+    smv_f_5 = app_f()
+    percent_f_5 = app_f.percent
+    
+    app_f.age = int(age_f) + 10
+    app_f.weight = int(weight_f) + 20
+    smv_f_10 = app_f()
+    percent_f_10 = app_f.percent
+    
+    app_f.age = int(age_f)
+    app_f.weight = int(weight_f)
+    smv_f_0 = app_f()
+    percent_f_0 = app_f.percent
 
     difference = calc_smv_m - calc_smv_f
     if calc_smv_m < calc_smv_f:
@@ -165,15 +185,20 @@ def smv():
 
     if calc_smv_f >= 8.5:
         results_m = 'She belongs to the streets. Bang and pass.'
-        
 
     return render_template(
         'smv.html',
         form=form,
         smv_m='SMV: ' + str(calc_smv_m),
         percent_m=str(round(app_m.percent, 1)),
-        smv_f='SMV: ' + str(calc_smv_f),
-        percent_f=str(round(app_f.percent, 1)),
+        smv_m_actual='SMV: ' + str(calc_smv_m_actual),
+        percent_m_actual=str(round(app_m_actual.percent, 1)),
+        smv_f= str(smv_f_0),
+        smv_f_5= str(smv_f_5),
+        smv_f_10= str(smv_f_10),
+        percent_f=str(round(percent_f_0, 1)),
+        percent_f_5=str(round(percent_f_5, 1)),
+        percent_f_10=str(round(percent_f_10, 1)),
         results_weight_m=app_m.results_weight,
         results_weight_f=app_f.results_weight,
         results_income_m=app_m.results_income,

@@ -50,6 +50,8 @@ class SMV(object):
         self.results_weight = ''
         self.results_income = ''
 
+        self.male_actual = False
+
     def __call__(self):
         if self.bodyfat > 0:
             self.fitness = 'bodyfat'
@@ -69,10 +71,16 @@ class SMV(object):
         return self.results_smv
 
     def alpha_mod(self, percent):
-        return 1 * (1 - self.alpha) + percent * (self.alpha)
+        if self.male_actual:
+            return percent
+        else:
+            return 1 * (1 - self.alpha) + percent * (self.alpha)
 
     def beta_mod(self, percent):
-        return 1 * (1 - self.beta) + percent * (self.beta)
+        if self.male_actual:
+            return percent
+        else:
+            return 1 * (1 - self.beta) + percent * (self.beta)
 
     def calc_bmi(self):
         self.bmi = round(self.weight / (self.height * self.height) * 703)
