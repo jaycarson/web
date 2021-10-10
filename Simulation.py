@@ -80,6 +80,9 @@ class Simulation(object):
         }
 
     def __call__(self):
+        total_children = 0
+        total_miscarriages = 0
+        total_still_births = 0
         for period in range(0, self.duration + 1):
             for woman in self.population:
                 woman()
