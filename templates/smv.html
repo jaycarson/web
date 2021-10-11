@@ -2,6 +2,8 @@
 {% block title %} SMV Page {% endblock %}
 
 {% block content %}
+
+<body>
 <div class="row">
   <div class="column">
     <div class:"sidebar">
@@ -16,63 +18,74 @@
   <img src="{{url_for('static', filename='RPcalculations1.png')}}">
   </div>
 </div>
-
-<body>
-<div class="body-text">
-  <form method="post",  action="/smv">
-  <div class="row">
-    <div class="column">
-      <h2>Characteristics:</h2>
-        <h4>Sex: Male</h4>
-        <h4>Age:{{ form.age_m }}</h4>
-        <h4>Height:{{ form.height_m }}</h4>
-        <h4>Weight:{{ form.weight_m }}</h4>
-        <h4>Body Fat %:{{ form.bf_m }}</h4>
-        <h4>Body Fat Calipers%:{{ form.bf_c_m }}</h4>
-        <h4>Income:{{ form.income_m }}</h4>
-    </div>
-    <div class="column">
-      <h2>Results</h2>
-      <table>
-        <tr><th>SMV        </th><th>Percent         </th><th>Actual Percent         </th></tr>
-        <tr><td>{{ smv_m }}</td><td>{{ percent_m }}%</td><td>{{ percent_m_actual }}%</td></tr>
-      </table>
-      <p>{{ results_weight_m }}</p>
-      <p>{{ results_income_m }}</p>
-    </div>
-    <div class="column">
-      <h2>Comparison</h2>
-      <p>{{ results_m }}</p>
-    </div>
+<div class="row">
+  <div class="column">
   </div>
-  <div class="row">
-    <div class="column">
-      <h2>Characteristics:</h2>
-        <h4>Sex: Female</h4>
-        <h4>Age:{{ form.age_f }}</h4>
-        <h4>Height:{{ form.height_f }}</h4>
-        <h4>Weight:{{ form.weight_f }}</h4>
-        <h4>Body Fat %:{{ form.bf_f }}</h4>
-        <h4>Body Fat Calipers%:{{ form.bf_c_f }}</h4>
-        <h4>Income:{{ form.income_f }}</h4>
-        <input type="submit">
-    </div>
-    <div class="column">
-      <h2>Results</h2>
-      <table>
-        <tr><th>Time</th><th>SMV</th><th>Percent</th></th>
-        <tr><td>Today</td>      <td>{{ smv_f }}</td>   <td>{{ percent_f }}%</td></tr>
-        <tr><td>+5 yrs</td> <td>{{ smv_f_5 }}</td> <td>{{ percent_f_5 }}%</td></tr>
-        <tr><td>+10 yrs</td><td>{{ smv_f_10 }}</td><td>{{ percent_f_10 }}%</td></tr>
-      </table>
-      <p>{{ results_weight_f }}</p>
-    </div>
-    <div class="column">
-      <h2>Comparison</h2>
-      <p>{{ results_f }}</p>
-    </div>
-  </form>
+  <div class="column">
+    <h1>SMV</h1>
+
+    <p>The goal is to determine the relative SMV (Sexual Market
+    Value) of men and women relative to each other.</p>
+
+    <p>This is a statistical analysis exercised through calculation.
+    Set the characteristics for a given couple (Man and Woman) and
+    then click the "Submit Query" button.</p>
   </div>
 </div>
+
+<form method="post",  action="/smv">
+  <div class="body-text">
+    <div class="row">
+      <div class="column">
+        <h2>Man:</h2>
+          <h4>Age:{{ form.age_m }}</h4>
+          <h4>Height:{{ form.height_m }}</h4>
+          <h4>Weight:{{ form.weight_m }}</h4>
+          <h4>Body Fat %:{{ form.bf_m }}</h4>
+          <h4>Body Fat Calipers%:{{ form.bf_c_m }}</h4>
+          <h4>Income:{{ form.income_m }}</h4>
+      </div>
+      <div class="column">
+        <h2>Results</h2>
+        <table>
+          <tr><th>SMV        </th><th>Percent         </th><th>Actual Percent         </th></tr>
+          <tr><td>{{ smv_m }}</td><td>{{ percent_m }}%</td><td>{{ percent_m_actual }}%</td></tr>
+        </table>
+        <p>{{ results_weight_m }}</p>
+        <p>{{ results_income_m }}</p>
+      </div>
+      <div class="column">
+        <h2>Comparison</h2>
+        <p>{{ results_f }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <h2>Woman:</h2>
+          <h4>Age:{{ form.age_f }}</h4>
+          <h4>Height:{{ form.height_f }}</h4>
+          <h4>Weight:{{ form.weight_f }}</h4>
+          <h4>Body Fat %:{{ form.bf_f }}</h4>
+          <h4>Body Fat Calipers%:{{ form.bf_c_f }}</h4>
+          <h4>Income:{{ form.income_f }}</h4>
+          <input type="submit">
+      </div>
+      <div class="column">
+        <h2>Results</h2>
+        <table>
+          <tr><th>Time</th><th>SMV</th><th>Percent</th></th>
+          <tr><td>Today</td>      <td>{{ smv_f }}</td>   <td>{{ percent_f }}%</td></tr>
+          <tr><td>+5 yrs</td> <td>{{ smv_f_5 }}</td> <td>{{ percent_f_5 }}%</td></tr>
+          <tr><td>+10 yrs</td><td>{{ smv_f_10 }}</td><td>{{ percent_f_10 }}%</td></tr>
+        </table>
+        <p>{{ results_weight_f }}</p>
+      </div>
+      <div class="column">
+        <h2>Comparison</h2>
+        <p>{{ results_m }}</p>
+      </div>
+    </div>
+  </div>
+</form>
 
 {% endblock %}
