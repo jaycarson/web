@@ -78,13 +78,13 @@
           <tr><td>+5 yrs</td> <td>{{ smv_f_5 }}</td> <td>{{ percent_f_5 }}%</td></tr>
           <tr><td>+10 yrs</td><td>{{ smv_f_10 }}</td><td>{{ percent_f_10 }}%</td></tr>
         </table>
-        {% for para in results_weight_f %}
-          <p>{{ para }}</p>
-        {% endfor %}
+        {{ results_weight_f }}
       </div>
       <div class="column">
         <h2>Comparison</h2>
-        <p>{{ results_f }}</p>
+        {% for para in results_f %}
+          <p>{{ para }}</p>
+        {% endfor %}
       </div>
     </div>
   </div>
