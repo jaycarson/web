@@ -202,7 +202,7 @@ def smv():
         results_m = 'She belongs to the streets. Bang and pass.'
 
     if round(app_m_actual.percent, 1) < 1.0 and round(percent_f_0, 1) > 1.0:
-        results_f += '</p></p>You should recognize that you are dealing with a man in the top 1%. These men are very rare. '
+        results_f += '</p><p>You should recognize that you are dealing with a man in the top 1%. These men are very rare. '
         if calc_smv_m < smv_f_0:
             results_f += ' You may have a higher SMV than him today, but that will not last. You may feel that you are out of his league. You are not. He is probably out of your league and it will probably be difficult to actually lock down a man with as many options as he has.'
         else:
