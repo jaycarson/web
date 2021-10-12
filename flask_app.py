@@ -233,7 +233,7 @@ def smv():
         results_weight_m=app_m.results_weight,
         results_weight_f=app_f.results_weight,
         results_income_m=app_m.results_income,
-        results_m=results_m,
+        results_m=results_m.split('\n'),
         results_f=results_f.split('\n'),
     )
 
