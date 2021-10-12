@@ -1,5 +1,6 @@
 import yaml
 import argparse
+from math import log
 
 
 class SMV(object):
@@ -39,7 +40,7 @@ class SMV(object):
         self.income = int(attrs['income'])
         self.age = int(attrs['age'])
         self.min_a = 18
-        self.max_a = 45
+        self.max_a = 85
         self.state = attrs['state']
         self.age_female = 18
 
@@ -81,6 +82,12 @@ class SMV(object):
             return percent
         else:
             return 1 * (1 - self.beta) + percent * (self.beta)
+
+    def elder_mod(self, percent):
+        if self.age > 23:
+            percent = log(self.age / 23) * percent
+            percent = (self.age / 23) * percent
+        return percent
 
     def calc_bmi(self):
         self.bmi = round(self.weight / (self.height * self.height) * 703)
@@ -259,8 +266,18 @@ class SMV(object):
     def adjust_young(self, direction):
         age = self.age
         if direction == 'up':
-            if age > 50:
-                return 40
+            if age > 95:
+                return 85
+            elif age >= 85:
+                return 75
+            elif age >= 75:
+                return 65
+            elif age >= 65:
+                return 55
+            elif age >= 55:
+                return 45
+            elif age >= 45:
+                return 35
             elif age >= 45:
                 return 35
             elif age >= 35:
@@ -280,8 +297,16 @@ class SMV(object):
                 return 35
             elif age <= 35:
                 return 45
+            elif age <= 45:
+                return 55
+            elif age <= 55:
+                return 65
+            elif age <= 65:
+                return 75
+            elif age <= 75:
+                return 85
             else:
-                return 50
+                return 85
 
     def generate_results(self):
         self.results_smv = self.get_smv(self.total_better() / self.total_pop(), self.sex)
@@ -325,6 +350,8 @@ class SMV(object):
                 if percent < self.smv_f[x]:
                     self.percent = percent
                     return x
+        self.percent = 99.0
+        return 0.5
 
     def percent_fit(self, fit=None):
         if self.sex == 'male':
@@ -374,7 +401,7 @@ class SMV(object):
             youth = self.age
         younger = 0.0
         total_younger = 0.0
-        for x in range(18, 40):
+        for x in range(18, 45):
             percent = self.pop_by_age[x]
             if x <= youth:
                 younger += percent
@@ -434,7 +461,7 @@ class SMV(object):
     def total_slimmer(self):
         f = self.percent_fit(self.adjust_fit('up'))
         y = self.percent_young(self.adjust_young('down')) - self.percent_young(self.adjust_young('up'))
-        value = round(self.total_pop() * f * y)
+        value = self.elder_mod(round(self.total_pop() * f * y))
         if self.debug:
             print("Fitter: " + str(value))
             print("    Younger: " + str(round(y, 2)))
@@ -444,7 +471,7 @@ class SMV(object):
     def total_younger(self):
         f = self.percent_fit(self.adjust_fit('down')) - self.percent_fit(self.adjust_fit('up'))
         y = self.percent_young(self.adjust_young('up'))
-        value = round(self.total_pop() * f * y)
+        value = self.elder_mod(round(self.total_pop() * f * y))
         if self.debug:
             print("Younger: " + str(value))
             print("    Younger: " + str(round(y, 2)))
@@ -454,7 +481,7 @@ class SMV(object):
     def total_younger_fitter(self):
         f = self.percent_fit(self.adjust_fit('up'))
         y = self.percent_young(self.adjust_young('up'))
-        value = round(self.total_pop() * f * y)
+        value = self.elder_mod(round(self.total_pop() * f * y))
         if self.debug:
             print("Younger Fitter: " + str(value))
             print("    Younger: " + str(round(y, 2)))
