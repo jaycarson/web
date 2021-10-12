@@ -2,8 +2,9 @@
 {% block title %} Home Page {% endblock %}
 {% block content %}
 
-<div class="row">
-  <div class="column">
+<table>
+<tr>
+  <td>
     <div class:"sidebar">
         <ul>
             <li><a class="active" href="/">Home</a></li>
@@ -11,15 +12,15 @@
             <li><a href="/fertility">Fertility</a></li>
         </ul>
     </div>
-  </div>
-  <div class="column">
+  </td>
+  <td>
   <img src="{{url_for('static', filename='RPcalculations1.png')}}">
-  </div>
-</div>
-<div class="row">
-  <div class="column">
-  </div>
-  <div class="column">
+  </td>
+</tr>
+<tr>
+  <td>
+  </td>
+  <td>
     <p>Welcome to RPcalculations. Here, underlying truths
     are revealed through statistical analysis and
     simulations.</p>
@@ -27,8 +28,9 @@
     <p>Do not expect to find anything comforting here.</p>
     <p>Knowledge does not bring happiness.</p>
     <p>Knowledge brings clarity and solace.</p>
-  </div>
-</div>
+  </td>
+</tr>
+</table>
 
 
 {{ content }}
