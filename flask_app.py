@@ -201,7 +201,7 @@ def smv():
     if calc_smv_f >= 8.5:
         results_m = 'She belongs to the streets. Bang and pass.'
 
-    if round(app_m_actual.percent, 1) >= round(percent_f_0, 1):
+    if calc_smv_m >= calc_smv_f:
         results_m += '\nYour SMV is greater than or equal to her SMV. First, you are not entitled to her. '
         results_m += 'She is a human being with needs/wants/desires of her own. You are well situated to '
         results_m += 'attract this woman, but it will not matter if you have poor Game. Game indicates that '
