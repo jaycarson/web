@@ -207,6 +207,15 @@ def smv():
             results_f += ' You may have a higher SMV than him today, but that will not last. You may feel that you are out of his league. You are not. He is probably out of your league and it will probably be difficult to actually lock down a man with as many options as he has.'
         else:
             results_f += ' This man is a rarety. If he is considering you for a long term relationship, then you should attempt to lock him down at any cost. You probably will not get another chance with another man of his caliber.'
+    elif round(app_m_actual.percent, 1) < 1.0:
+        results_m += '\nYou are in the top one percent. This model does not take Game into account. '
+        results_m += 'You apparently have everything.\nIf you are still having problems with women, '
+        results_m += 'then it is because your Game sucks. Women will be attracted to you at first '
+        results_m += 'because you "Check off all the boxes", but they will lose attraction to you. It '
+        results_m += 'will confuse them because they will not know why they just don\'t "vibe" with you '
+        results_m += '(Even though they want to). The reason why this is confusing is because it is '
+        results_m += 'incongruent. A man who has "everything" should have game. He should have abundance. '
+        results_m += 'He shouldn\'t care about her because he has many options. Work on your Game. Dammit.'
 
     return render_template(
         'smv.html',
