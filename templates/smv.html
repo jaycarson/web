@@ -59,7 +59,9 @@
         </td>
         <td valign="top">
           <h2>Comparison</h2>
-          <p>{{ results_m }}</p>
+          {% for para in results_m %}
+            <p>{{ para }}</p>
+          {% endfor %}
         </td>
       </tr>
       <tr>
