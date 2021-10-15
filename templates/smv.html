@@ -27,10 +27,6 @@
   
       <p>The goal is to determine the relative SMV (Sexual Market
       Value) of men and women relative to each other.</p>
-  
-      <p>This is a statistical analysis exercised through calculation.
-      Set the characteristics for a given couple (Man and Woman) and
-      then click the "Submit Query" button.</p>
     </td>
   </tr>
   
@@ -39,7 +35,7 @@
       <tr>
         <td>
         </td>
-        <td valign="top">
+        <td valign="top" bgcolor="CCE5FF">
           <h2>Man:</h2>
             <h4>Age:{{ form.age_m }}</h4>
             <h4>Height:{{ form.height_m }}</h4>
@@ -48,18 +44,16 @@
             <h4>Body Fat Calipers%:{{ form.bf_c_m }}</h4>
             <h4>Income:{{ form.income_m }}</h4>
         </td>
-        <td valign="top">
+        <td valign="top" bgcolor="CCE5FF">
           <h2>Results</h2>
           <table border="1">
             <tr><th>SMV        </th><th>Percent         </th><th>Actual Percent         </th></tr>
             <tr><td>{{ smv_m }}</td><td>{{ percent_m }}%</td><td>{{ percent_m_actual }}%</td></tr>
           </table>
-          <p>{{ results_weight_m }}</p>
-          <p>{{ results_income_m }}</p>
         </td>
-        <td valign="top">
-          <h2>Comparison</h2>
-          {% for para in results_m %}
+        <td valign="top" bgcolor="CCE5FF">
+          <h2>Commentary</h2>
+          {% for para in commentary_m %}
             <p>{{ para }}</p>
           {% endfor %}
         </td>
@@ -67,7 +61,7 @@
       <tr>
         <td>
         </td>
-        <td valign="top">
+        <td valign="top" bgcolor="FFD0F6">
           <h2>Woman:</h2>
             <h4>Age:{{ form.age_f }}</h4>
             <h4>Height:{{ form.height_f }}</h4>
@@ -77,7 +71,7 @@
             <h4>Income:{{ form.income_f }}</h4>
             <input type="submit">
         </td>
-        <td valign="top">
+        <td valign="top" bgcolor="FFD0F6">
           <h2>Results</h2>
           <table border="1">
             <tr><th>Time</th><th>SMV</th><th>Percent</th></th>
@@ -85,11 +79,10 @@
             <tr><td>+5 yrs</td> <td>{{ smv_f_5 }}</td> <td>{{ percent_f_5 }}%</td></tr>
             <tr><td>+10 yrs</td><td>{{ smv_f_10 }}</td><td>{{ percent_f_10 }}%</td></tr>
           </table>
-          <p>{{ results_weight_f }}</p>
         </td>
-        <td valign="top">
-          <h2>Comparison</h2>
-          {% for para in results_f %}
+        <td valign="top" bgcolor="FFD0F6">
+          <h2>Commentary</h2>
+          {% for para in commentary_f %}
             <p>{{ para }}</p>
           {% endfor %}
         </td>
@@ -97,5 +90,8 @@
     </div>
   </form>
   </table>
+  <p>This is a statistical analysis exercised through calculation.
+     Set the characteristics for a given couple (Man and Woman) and
+     then click the "Submit Query" button.</p>
 
 {% endblock %}

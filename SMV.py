@@ -313,27 +313,27 @@ class SMV(object):
 
         if self.sex == 'male':
             if self.bodyfat >= 30 or self.bodyfat_c >= 30 or self.bmi >= 30:
-                self.results_weight = 'Weight: You are fat. You need to lose weight.'
+                self.results_weight = 'You are fat. You need to lose weight.'
             elif self.bodyfat >= 25 or self.bodyfat_c >= 25 or self.bmi >= 25:
-                self.results_weight = 'Weight: You are on the right track, but you still need to lose weight.'
+                self.results_weight = 'For your health, you are on the right track, but you still need to lose weight.'
             else:
-                self.results_weight = 'Weight: Keep on doing what you are doing and continue to work out.'
+                self.results_weight = 'For your health, keep on doing what you are doing and continue to work out.'
 
             if self.income < 43206:
-                self.results_income = 'Income: You make less than the average income. You need to improve your skills, work harder, and make more money.'
+                self.results_income = 'You make less than the average income. You need to improve your skills, work harder, and make more money.'
             elif self.income < 75050:
-                self.results_income = 'Income: You make just better than the average income. You need to improve your skills, work harder, and make more money.'
+                self.results_income = 'You make just better than the average income. You need to improve your skills, work harder, and make more money.'
             elif self.income < 100000:
-                self.results_income = 'Income: You are doing well, but not well enough. You need to improve your skills, work harder, and make more money.'
+                self.results_income = 'You are doing well financially, but not well enough. You need to improve your skills, work harder, and make more money.'
             else:
-                self.results_income = 'Income: You are doing well, but it will never be enough. You need to improve your skills, work harder, and make more money.'
+                self.results_income = 'You are doing well financially, but it will never be enough. You need to improve your skills, work harder, and make more money.'
         else:
             if self.bodyfat >= 40 or self.bodyfat_c >= 40 or self.bmi >= 30:
-                self.results_weight = 'Weight: You are fat. You need to lose weight.'
+                self.results_weight = 'You are fat. You need to lose weight.'
             elif self.bodyfat >= 35 or self.bodyfat_c >= 35 or self.bmi >= 25:
-                self.results_weight = 'Weight: You are on the right track, but you still need to lose weight.'
+                self.results_weight = 'For your health, you are on the right track, but you still need to lose weight.'
             else:
-                self.results_weight = 'Weight: Keep on doing what you are doing and continue to work out.'
+                self.results_weight = 'For your health, keep on doing what you are doing and continue to work out.'
 
 
     def get_smv(self, percent, sex):

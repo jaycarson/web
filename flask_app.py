@@ -185,52 +185,78 @@ def smv():
     percent_f_0 = app_f.percent
 
     difference = calc_smv_m - calc_smv_f
+
+    commentary_m = ""
+    commentary_f = ""
+
     if calc_smv_m < calc_smv_f:
-        results_m = 'You are lower SMV than her. If she does get interested in you, then do not get attached. This relationship will probably not last.'
-        results_f = 'You are higher SMV than him. You may like him in this moment, but it will not last.'
+        commentary_m += 'You are lower SMV than her. If she does get interested in you, then do not get attached. This relationship will probably not last.'
+        commentary_f += 'You are higher SMV than him. You may like him in this moment, but it will not last.'
     elif difference < 1 and difference > -1:
-        results_m = 'You are about the same SMV as her. Do not get attached. Her tastes and opinions will eventually change. You will not measure up. Then she will drop you.'
-        results_f = 'You are about the same SMV as him. You may like him in this moment, but it will not last.'
+        commentary_m += 'You are about the same SMV as her. Do not get attached. Her tastes and opinions will eventually change. You will not measure up. Then she will drop you.'
+        commentary_f += 'You are about the same SMV as him. You may like him in this moment, but it will not last.'
     elif difference >= 1 and difference < 2:
-        results_m = 'You have a little higher SMV than her. This is probably an appropriate match.'
-        results_f = 'You have a little lower SMV than him. You will probably feel satisfied in this relationship.'
+        commentary_m += 'You have a little higher SMV than her. This is probably an appropriate match.'
+        commentary_f += 'You have a little lower SMV than him. You will probably feel satisfied in this relationship.'
     else:
-        results_m = 'You have a higher SMV than her. You are out of her league and can do better.'
-        results_f = 'You have a lower SMV than him. If he does not recognize his value, then you should consider yourself lucky and try to lock him down.'
+        commentary_m += 'You have a higher SMV than her. You are out of her league and can do better.'
+        commentary_f += 'You have a lower SMV than him. If he does not recognize his value, then you should consider yourself lucky and try to lock him down.'
 
     if calc_smv_f >= 8.5:
-        results_m = 'She belongs to the streets. Bang and pass.'
+        commentary_m += 'She belongs to the streets. Bang and pass.'
 
     if calc_smv_m >= calc_smv_f:
-        results_m += '\nYour SMV is greater than or equal to her SMV. First, you are not entitled to her. '
-        results_m += 'She is a human being with needs/wants/desires of her own. You are well situated to '
-        results_m += 'attract this woman, but it will not matter if you have poor Game. Game indicates that '
-        results_m += 'you have options and that she is one of many. Next, she has to believe that you can do better '
-        results_m += 'but that you are choosing her. If she believes that she can better, then your days are '
-        results_m += 'numbered.'
+        commentary_m += '\nYour SMV is greater than or equal to her SMV. First, you are not entitled to her. '
+        commentary_m += 'She is a human being with needs/wants/desires of her own. You are well situated to '
+        commentary_m += 'attract this woman, but it will not matter if you have poor Game. Game indicates that '
+        commentary_m += 'you have options and that she is one of many. Next, she has to believe that you can do better '
+        commentary_m += 'but that you are choosing her. If she believes that she can better, then your days are '
+        commentary_m += 'numbered.'
 
     if round(app_m_actual.percent, 1) < 1.0 and round(percent_f_0, 1) > 1.0:
-        results_f += '\nYou should recognize that you are dealing with a man in the top 1%. These men are very rare. '
+        commentary_f += '\nYou should recognize that you are dealing with a man in the top 1%. These men are very rare. '
         if calc_smv_m < smv_f_0:
-            results_f += ' You may have a higher SMV than him today, but that will not last. You may feel that you are out of his league. You are not. He is probably out of your league and it will probably be difficult to actually lock down a man with as many options as he has.'
+            commentary_f += ' You may have a higher SMV than him today, but that will not last. You may feel that you are out of his league. You are not. He is probably out of your league and it will probably be difficult to actually lock down a man with as many options as he has.'
         else:
-            results_f += ' This man is a rarety. If he is considering you for a long term relationship, then you should attempt to lock him down at any cost. You probably will not get another chance with another man of his caliber.'
+            commentary_f += ' This man is a rarety. If he is considering you for a long term relationship, then you should attempt to lock him down at any cost. You probably will not get another chance with another man of his caliber.'
     if round(app_m_actual.percent, 1) < 1.0:
-        results_m += '\nYou are in the top one percent. This model does not take Game into account. '
-        results_m += 'You apparently have everything.\nIf you are still having problems with women, '
-        results_m += 'then it is because your Game sucks. Women will be attracted to you at first '
-        results_m += 'because you "Check off all the boxes", but they will lose attraction to you. It '
-        results_m += 'will confuse them because they will not know why they just don\'t "vibe" with you '
-        results_m += '(Even though they want to). The reason why this is confusing is because it is '
-        results_m += 'incongruent. A man who has "everything" should have game. He should have abundance. '
-        results_m += 'He shouldn\'t care about her because he has many options. Work on your Game. Dammit.'
+        commentary_m += '\nYou are in the top one percent. This model does not take Game into account. '
+        commentary_m += 'You apparently have everything.\nIf you are still having problems with women, '
+        commentary_m += 'then it is because your Game sucks. Women will be attracted to you at first '
+        commentary_m += 'because you "Check off all the boxes", but they will lose attraction to you. It '
+        commentary_m += 'will confuse them because they will not know why they just don\'t "vibe" with you '
+        commentary_m += '(Even though they want to). The reason why this is confusing is because it is '
+        commentary_m += 'incongruent. A man who has "everything" should have game. He should have abundance. '
+        commentary_m += 'He shouldn\'t care about her because he has many options. Work on your Game. Dammit.'
+
+    commentary_m += app_m.results_weight + "\n"
+    commentary_f += app_f.results_weight + "\n"
+
+    commentary_m += app_m.results_income
+    
+    if app_f.income > app_m.income:
+        commentary_m += " She makes more money than you. Women want you to make at least 125% of what they make."
+        commentary_f += " You make more money than him. You may be fine with that for the moment. However, you are going grow resentful of his 'lack of ambition', laziness, etc."
+    elif (app_f.income * 1.25) > app_m.income:
+        commentary_m += " You do not make enough money. Women want you to make at least 125% of what they make."
+        commentary_f += " He does not make enough money. You may be fine with it for now and he does make more money than you. However, you are going to grow resentful of his 'lack of ambition', laziness, etc."
+
+    commentary_m += "\n"
+    commentary_f += "\n"
+
+    if app_m.height < 69:
+        commentary_m += "You have below average height. There's nothing that you can do about that. What you can do is get out and work on yourself. Improve your career, make more money, and hit the gym.\n"
+    elif app_m.height == 69:
+        commentary_m += "You have average height. There's nothing that you can do about that. What you can do is get out and work on yourself. Improve your career, make more money, and hit the gym.\n"
+    elif app_m.height < 72:
+        commentary_m += "Your height is below six feet tall. There's nothing that you can do about that. What you can do is get out and work on yourself. Improve your career, make more money, and hit the gym.\n"
 
     return render_template(
         'smv.html',
         form=form,
-        smv_m='SMV: ' + str(calc_smv_m),
+        smv_m=str(calc_smv_m),
         percent_m=str(round(app_m.percent, 1)),
-        smv_m_actual='SMV: ' + str(calc_smv_m_actual),
+        smv_m_actual=str(calc_smv_m_actual),
         percent_m_actual=str(round(app_m_actual.percent, 1)),
         smv_f= str(smv_f_0),
         smv_f_5= str(smv_f_5),
@@ -238,11 +264,8 @@ def smv():
         percent_f=str(round(percent_f_0, 1)),
         percent_f_5=str(round(percent_f_5, 1)),
         percent_f_10=str(round(percent_f_10, 1)),
-        results_weight_m=app_m.results_weight,
-        results_weight_f=app_f.results_weight,
-        results_income_m=app_m.results_income,
-        results_m=results_m.split('\n'),
-        results_f=results_f.split('\n'),
+        commentary_m=commentary_m.split('\n'),
+        commentary_f=commentary_f.split('\n'),
     )
 
 
