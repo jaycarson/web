@@ -28,6 +28,7 @@ class SMV(object):
         self.fitness = ''
         self.percent = 0
         self.bmi = 0
+        self.bmi_actual = 0
             
         self.fitter_taller_richer_printed = False
 
@@ -60,7 +61,7 @@ class SMV(object):
             self.fitness = 'bodyfat_c'
         else:
             self.fitness = 'bmi'
-            self.bmi = self.calc_bmi()
+            self.calc_bmi()
 
         self.set_alpha_beta()
 
@@ -68,6 +69,7 @@ class SMV(object):
             print('Fitness: ' + str(self.fitness))
         
         self.generate_results()
+        print(self.results_smv)
         
         return self.results_smv
 
@@ -91,6 +93,9 @@ class SMV(object):
 
     def calc_bmi(self):
         self.bmi = round(self.weight / (self.height * self.height) * 703)
+        self.bmi_actual = self.bmi
+        if self.bmi < 20:
+            self.bmi = 20 + (20 - self.bmi)
         if self.debug:
             print('BMI: ' + str(self.bmi))
         return self.bmi
@@ -312,9 +317,9 @@ class SMV(object):
         self.results_smv = self.get_smv(self.total_better() / self.total_pop(), self.sex)
 
         if self.sex == 'male':
-            if self.bodyfat >= 30 or self.bodyfat_c >= 30 or self.bmi >= 30:
+            if self.bodyfat >= 30 or self.bodyfat_c >= 30 or self.bmi_actual >= 30:
                 self.results_weight = 'You are fat. You need to lose weight.'
-            elif self.bodyfat >= 25 or self.bodyfat_c >= 25 or self.bmi >= 25:
+            elif self.bodyfat >= 25 or self.bodyfat_c >= 25 or self.bmi_actual >= 25:
                 self.results_weight = 'For your health, you are on the right track, but you still need to lose weight.'
             else:
                 self.results_weight = 'For your health, keep on doing what you are doing and continue to work out.'
@@ -328,9 +333,9 @@ class SMV(object):
             else:
                 self.results_income = 'You are doing well financially, but it will never be enough. You need to improve your skills, work harder, and make more money.'
         else:
-            if self.bodyfat >= 40 or self.bodyfat_c >= 40 or self.bmi >= 30:
+            if self.bodyfat >= 40 or self.bodyfat_c >= 40 or self.bmi_actual >= 30:
                 self.results_weight = 'You are fat. You need to lose weight.'
-            elif self.bodyfat >= 35 or self.bodyfat_c >= 35 or self.bmi >= 25:
+            elif self.bodyfat >= 35 or self.bodyfat_c >= 35 or self.bmi_actual >= 25:
                 self.results_weight = 'For your health, you are on the right track, but you still need to lose weight.'
             else:
                 self.results_weight = 'For your health, keep on doing what you are doing and continue to work out.'
