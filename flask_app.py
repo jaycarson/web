@@ -239,7 +239,7 @@ def smv():
         commentary_f += " You make more money than him. You may be fine with that for the moment. However, you are going grow resentful of his 'lack of ambition', laziness, etc."
     elif (app_f.income * 1.25) > app_m.income:
         commentary_m += " You do not make enough money. Women want you to make at least 125% of what they make."
-        commentary_f += " He does not make enough money. You may be fine with it for now and he does make more money than you. However, you are going to grow resentful of his 'lack of ambition', laziness, etc."
+        commentary_f += " He does not make enough money. You may be fine with it for now and he does make the same or more money than you. However, you are going to grow resentful of his 'lack of ambition', laziness, etc."
 
     commentary_m += "\n"
     commentary_f += "\n"
