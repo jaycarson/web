@@ -251,6 +251,13 @@ def smv():
     elif app_m.height < 72:
         commentary_m += "Your height is below six feet tall. There's nothing that you can do about that. What you can do is get out and work on yourself. Improve your career, make more money, and hit the gym.\n"
 
+    if app_f.age >= 36:
+        commentary_m += "She is in the Alpha-Reinterest phase of her life. During this time, she will prioritise physical and other traits that allow her to 'flex' over her girlfriends. She does still desire Beta long term traits, but Alpha traits have regained priority. If you are looking for a woman in this stage of life, then you should focus on your health. If you haven't accomplished anything, then focus on your life and make something of yourself.\n"
+    elif app_f.age >= 26:
+        commentary_m += "She is in the Beta-Long Term phase of her life. She has started to consider consider your income and look for a man that may better provide security. Alpha traits are still important, but she is starting to get baby rabbies. Be careful not to be the guy that is good enough for now. She should want to have YOUR child, not just have a child. If you are looking for a woman in this stage of life, then focus on your purpose and become successful.\n"
+    else:
+        commentary_m += "She is in the Alpha-Short Term phase of her life. She pretty much only cares about physical traits. Do you have a six pack? Are you over six feet tall. At this age she has little to no concept of money and how one earns it. She may want a guy who makes six figures, but she probably doesn't know that that takes. If you are looking for women in this stage of life, then work out and get in the best shape of your life.\n"
+
     return render_template(
         'smv.html',
         form=form,
