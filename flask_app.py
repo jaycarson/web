@@ -212,7 +212,7 @@ def smv():
         commentary_f += "\nYou are in the 'Husband Store' and you may not realize that you are probably on the floor right before the last floor. If you are not familiar with the meme, then you should Google it. Very likely after this guy, you're going to get booted from the store."
 
     if calc_smv_f >= 8.5:
-        commentary_m += "\nShe belongs to the streets. Bang and pass."
+        commentary_m += "\nShe belongs to the streets. Bang and pass.\n"
 
     if calc_smv_m >= calc_smv_f:
         commentary_m += '\nYour SMV is greater than or equal to her SMV. First, you are not entitled to her. '
