@@ -189,6 +189,12 @@ def smv():
     commentary_m = ""
     commentary_f = ""
 
+    if calc_smv_m >= 7.0 and calc_smv_m <= 8.5:
+        commentary_m += "Welcome to the uncanny valley of male SMV. You are good enough for women to consider you for dating, but you are not good enough looking for her to stop looking. She likely thinks that if she get a " + str(calc_smv_m) + ", then maybe she can get a " + str(calc_smv_m + 1) + ".\n"
+
+    if (calc_smv_m - calc_smv_f) >= 3:
+        commentary_f += "Congratulations, you are Slump Buster. Do guys seem to lose interest after a day, week, or month of having sex with you? This is probably because they were in a slump and they needed regain their confidence before moving on to more attractive women. Maybe start to consider men who are closer to your SMV.\n"
+
     if calc_smv_m < calc_smv_f:
         commentary_m += 'You are lower SMV than her. If she does get interested in you, then do not get attached. This relationship will probably not last.'
         commentary_f += 'You are higher SMV than him. You may like him in this moment, but it will not last.'
@@ -201,6 +207,9 @@ def smv():
     else:
         commentary_m += 'You have a higher SMV than her. You are out of her league and can do better.'
         commentary_f += 'You have a lower SMV than him. If he does not recognize his value, then you should consider yourself lucky and try to lock him down.'
+    
+    if calc_smv_m >= 7.0 and calc_smv_m <= 8.5:
+        commentary_f += "\nYou are in the 'Husband Store' and you may not realize that you are probably on the floor right before the last floor. If you are not familiar with the meme, then you should Google it. Very likely after this guy, you're going to get booted from the store."
 
     if calc_smv_f >= 8.5:
         commentary_m += 'She belongs to the streets. Bang and pass.'
