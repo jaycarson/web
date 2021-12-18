@@ -38,9 +38,14 @@ class Simulation(object):
 
         self.key = '-'.join(keys)
 
-        chance_to_conceive = yaml.load(open('./web/data/fertility.yml', 'r'), Loader=yaml.FullLoader)
-        chance_to_miscarry = yaml.load(open('./web/data/miscarriage.yml', 'r'), Loader=yaml.FullLoader)
-        chance_on_ivf = yaml.load(open('./web/data/ivf.yml', 'r'), Loader=yaml.FullLoader)
+        try:
+            chance_to_conceive = yaml.load(open('./web/data/fertility.yml', 'r'), Loader=yaml.FullLoader)
+            chance_to_miscarry = yaml.load(open('./web/data/miscarriage.yml', 'r'), Loader=yaml.FullLoader)
+            chance_on_ivf = yaml.load(open('./web/data/ivf.yml', 'r'), Loader=yaml.FullLoader)
+        except:
+            chance_to_conceive = yaml.load(open('./web/data/fertility.yml', 'r'))
+            chance_to_miscarry = yaml.load(open('./web/data/miscarriage.yml', 'r'))
+            chance_on_ivf = yaml.load(open('./web/data/ivf.yml', 'r'))
 
         self.population = []
         seed = 0
@@ -114,7 +119,7 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         "--years",
-        default=35,
+        default=70,
         help="Set starting age in years",
     )
     parser.add_argument(
@@ -154,7 +159,7 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         "--end",
-        default=40,
+        default=100,
         help="Set end year.",
     )
     parser.add_argument(
@@ -208,6 +213,8 @@ if __name__ == '__main__':
         size = int(args.size),
     )
     app()
+    
+    print(app.results['total children'] / app.results['sample size'])
 
     #if bmi >= 25.0:
     #    app = Simulation(
