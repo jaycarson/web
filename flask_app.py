@@ -280,8 +280,10 @@ def smv():
         percent_f=str(round(percent_f_0, 1)),
         percent_f_5=str(round(percent_f_5, 1)),
         percent_f_10=str(round(percent_f_10, 1)),
-        commentary_m=commentary_m.split('\n'),
-        commentary_f=commentary_f.split('\n'),
+        #commentary_m=commentary_m.split('\n'),
+        #commentary_f=commentary_f.split('\n'),
+        commentary_m=[],
+        commentary_f=[],
     )
 
 
